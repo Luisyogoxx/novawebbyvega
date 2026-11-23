@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NovaWeb by Vega | Creación de Páginas Web, SEO, Robots IA y Diseño Digital en Colombia</title>
+  <meta name="description" content="NovaWeb by Vega: Creación de páginas web profesionales en Colombia y el mundo, SEO para empresas, posicionamiento en Google, WhatsApp Business, robots con IA, menús digitales QR y desarrollo de aplicaciones a medida." />
+  <meta name="keywords" content="creación de páginas web Colombia, diseño web profesional, SEO para empresas Colombia, posicionamiento web Google, WhatsApp Business API, robots para empresas, chatbots IA Colombia, menús digitales QR restaurantes, desarrollo de aplicaciones móviles, NovaWeb by Vega, Bogotá, Medellín, Cali, Barranquilla, Cartagena" />
+  <meta name="author" content="NovaWeb by Vega" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="geo.region" content="CO" />
+  <meta name="geo.placename" content="Colombia" />
+  <link rel="canonical" href="https://novawebbyvega.com/" />
+  <link rel="alternate" hreflang="es-CO" href="https://novawebbyvega.com/" />
+  <link rel="alternate" hreflang="es" href="https://novawebbyvega.com/" />
+  <link rel="alternate" hreflang="x-default" href="https://novawebbyvega.com/" />
+
+  <!-- Security Hardening Headers (complementar con Cloudflare WAF/DDoS en el dominio) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://wa.me mailto:;" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+  <!-- Open Graph / Redes Sociales -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_CO" />
+  <meta property="og:site_name" content="NovaWeb by Vega" />
+  <meta property="og:title" content="NovaWeb by Vega | Creación de Páginas Web, SEO y Automatización IA" />
+  <meta property="og:description" content="Páginas web futuristas, posicionamiento SEO en Colombia y el mundo, WhatsApp Business, robots IA, menús digitales QR y aplicaciones." />
+  <meta property="og:url" content="https://novawebbyvega.com/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="NovaWeb by Vega | Creación de Páginas Web y Diseño Digital" />
+  <meta name="twitter:description" content="Impulsa tu empresa con páginas web de alto impacto, SEO, WhatsApp Business, robots IA, menús digitales y apps." />
+
+  <!-- Datos Estructurados Schema.org (SEO Local Colombia + Global) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "NovaWeb by Vega | Creación de Páginas Web y Diseño Digital",
+    "url": "https://novawebbyvega.com/",
+    "email": "direccionnovawebvega.com@novawebbyvega.com",
+    "telephone": "+573000560656",
+    "areaServed": [
+      { "@type": "Country", "name": "Colombia" },
+      { "@type": "Place", "name": "Worldwide" }
+    ],
+    "availableLanguage": ["es", "en"],
+    "priceRange": "$$",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+57-300-056-0656",
+      "contactType": "sales",
+      "areaServed": ["CO", "LATAM", "US", "ES"],
+      "availableLanguage": "Spanish"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Servicios Digitales NovaWeb by Vega",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Creación de Páginas Web Profesionales" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "SEO para Empresas y Posicionamiento Web en Google" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automatización WhatsApp Business API" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Robots para Empresas y Chatbots con IA" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Menús Digitales Interactivos QR" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Desarrollo de Aplicaciones Móviles y Web" } }
+      ]
+    }
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Cursor Spotlight & Background Neural Canvas -->
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+  <canvas id="neuralCanvas" aria-hidden="true"></canvas>
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <!-- Navbar -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="#inicio" class="brand">
+        <span class="brand-mark">
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M18 2L32 10V26L18 34L4 26V10L18 2Z" stroke="url(#nexGrad)" stroke-width="2" />
+            <path d="M12 23V13L24 23V13" stroke="#00F0FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+            <defs>
+              <linearGradient id="nexGrad" x1="4" y1="2" x2="32" y2="34" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#00F0FF" />
+                <stop offset="1" stop-color="#7C3AED" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <span class="brand-text">NovaWeb<span class="brand-tag">by Vega</span></span>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Navegación principal">
+        <a href="#servicios">Servicios</a>
+        <a href="#demos">Demos en Vivo</a>
+        <a href="#cotizador">Cotizador IA</a>
+        <a href="#proceso">Proceso</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#contacto" class="btn btn-primary btn-sm">
+          <span>Iniciar Proyecto</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="status-pill">
+            <span class="pulse-dot"></span>
+            <span>SISTEMAS DE PRÓXIMA GENERACIÓN // 2026</span>
+          </div>
+
+          <h1 class="hero-title">
+            Construimos el <span class="text-gradient">ecosistema digital</span> que multiplica tus ventas
+          </h1>
+
+          <p class="hero-subtitle">
+            Páginas web de alto impacto, posicionamiento SEO empresarial, automatización con WhatsApp Business, robots con IA, menús digitales interactivos y aplicaciones a medida. Todo integrado en una arquitectura veloz y futurista.
+          </p>
+
+          <div class="hero-ctas">
+            <a href="#cotizador" class="btn btn-primary btn-lg">
+              <span>Configurar mi Solución</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+            <a href="#demos" class="btn btn-glass btn-lg">
+              <span>Probar Demos Interactivos</span>
+            </a>
+          </div>
+
+          <div class="hero-metrics">
+            <div class="metric-item">
+              <span class="metric-value" data-count="180">0</span><span class="metric-suffix">+</span>
+              <span class="metric-label">Empresas Digitalizadas</span>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-item">
+              <span class="metric-value" data-count="340">0</span><span class="metric-suffix">%</span>
+              <span class="metric-label">Crecimiento Orgánico SEO</span>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-item">
+              <span class="metric-value">24/7</span>
+              <span class="metric-label">Robots &amp; WhatsApp Activos</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Futuristic HUD Dashboard Preview -->
+        <div class="hero-visual">
+          <div class="hud-card" id="heroHud">
+            <div class="hud-header">
+              <div class="hud-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <span class="hud-title">NOVAWEB_CORE // TELEMETRÍA EN VIVO</span>
+              <span class="hud-badge">ONLINE</span>
+            </div>
+
+            <div class="hud-body">
+              <div class="hud-stat-row">
+                <div class="hud-mini-card">
+                  <span class="mini-label">Posicionamiento Google</span>
+                  <strong class="mini-val cyan">Top #1 - #3</strong>
+                  <div class="mini-bar"><div class="mini-fill" style="width: 94%"></div></div>
+                </div>
+                <div class="hud-mini-card">
+                  <span class="mini-label">Velocidad Core Web</span>
+                  <strong class="mini-val emerald">99 / 100</strong>
+                  <div class="mini-bar"><div class="mini-fill emerald" style="width: 99%"></div></div>
+                </div>
+              </div>
+
+              <div class="hud-terminal">
+                <div class="terminal-line"><span class="t-prompt">&gt;</span> Iniciando módulo <span class="t-accent">WhatsApp_Business_API</span>... <span class="t-ok">[OK]</span></div>
+                <div class="terminal-line"><span class="t-prompt">&gt;</span> Entrenando <span class="t-purple">Robot_IA_Ventas</span> con catálogo... <span class="t-ok">[LISTO]</span></div>
+                <div class="terminal-line"><span class="t-prompt">&gt;</span> Sincronizando <span class="t-accent">Menu_Digital_QR</span> + Pedidos... <span class="t-ok">[ACTIVO]</span></div>
+                <div class="terminal-line typing-line"><span class="t-prompt">&gt;</span> Nuevo lead calificado desde Google SEO <span class="t-cursor">_</span></div>
+              </div>
+
+              <div class="hud-modules">
+                <span class="mod-chip active">Web &amp; UX</span>
+                <span class="mod-chip active">SEO Pro</span>
+                <span class="mod-chip active">WhatsApp API</span>
+                <span class="mod-chip active">Robots IA</span>
+                <span class="mod-chip active">Menú QR</span>
+                <span class="mod-chip active">Apps Móviles</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Infinite Tech & Capabilities Ticker -->
+      <div class="ticker-wrap">
+        <div class="ticker-track">
+          <span>DISEÑO WEB FUTURISTA</span><span class="sep">//</span>
+          <span>SEO EMPRESARIAL</span><span class="sep">//</span>
+          <span>POSICIONAMIENTO GOOGLE</span><span class="sep">//</span>
+          <span>WHATSAPP BUSINESS API</span><span class="sep">//</span>
+          <span>ROBOTS CON INTELIGENCIA ARTIFICIAL</span><span class="sep">//</span>
+          <span>MENÚS DIGITALES QR</span><span class="sep">//</span>
+          <span>APLICACIONES MÓVILES &amp; WEB</span><span class="sep">//</span>
+          <span>AUTOMATIZACIÓN CRM</span><span class="sep">//</span>
+          <span>DISEÑO WEB FUTURISTA</span><span class="sep">//</span>
+          <span>SEO EMPRESARIAL</span><span class="sep">//</span>
+          <span>POSICIONAMIENTO GOOGLE</span><span class="sep">//</span>
+          <span>WHATSAPP BUSINESS API</span><span class="sep">//</span>
+          <span>ROBOTS CON INTELIGENCIA ARTIFICIAL</span><span class="sep">//</span>
+          <span>MENÚS DIGITALES QR</span><span class="sep">//</span>
+          <span>APLICACIONES MÓVILES &amp; WEB</span><span class="sep">//</span>
+          <span>AUTOMATIZACIÓN CRM</span><span class="sep">//</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section" id="servicios">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">ECOSISTEMA DE SOLUCIONES</span>
+          <h2 class="section-title">Tecnología diseñada para <span class="text-gradient">escalar tu negocio</span></h2>
+          <p class="section-desc">
+            Cada servicio funciona de manera independiente o conectado en un sistema unificado que atrae clientes, los atiende al instante y cierra ventas en piloto automático.
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <!-- 1. Creación de Páginas Web -->
+          <article class="service-card" data-tilt>
+            <div class="card-glow"></div>
+            <div class="service-icon cyan">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="3" y="4" width="18" height="16" rx="2" />
+                <path d="M3 9h18M8 14l2 2-2 2M12 18h4" />
+              </svg>
+            </div>
+            <span class="service-tag">WEB ARCHITECTURE</span>
+            <h3>Creación de Páginas Web</h3>
+            <p>Sitios corporativos, landing pages de alta conversión y tiendas online con diseño futurista, carga ultrarrápida y experiencia adaptada a móviles.</p>
+            <ul class="service-list">
+              <li>Diseño UX/UI exclusivo a medida</li>
+              <li>Arquitectura optimizada para conversión</li>
+              <li>Certificado SSL, dominio y hosting cloud</li>
+            </ul>
+            <a href="#cotizador" class="card-link" data-preselect="web">Cotizar Web &rarr;</a>
+          </article>
+
+          <!-- 2. SEO y Posicionamiento Web -->
+          <article class="service-card" data-tilt>
+            <div class="card-glow"></div>
+            <div class="service-icon purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M3 3v18h18" />
+                <path d="M7 15l4-4 4 3 5-7" />
+                <circle cx="20" cy="7" r="1.5" />
+              </svg>
+            </div>
+            <span class="service-tag">SEARCH DOMINANCE</span>
+            <h3>SEO &amp; Posicionamiento Web</h3>
+            <p>Llevamos tu empresa a los primeros lugares de Google. Auditoría técnica, palabras clave estratégicas, SEO local y autoridad de marca.</p>
+            <ul class="service-list">
+              <li>Posicionamiento orgánico en Google &amp; Maps</li>
+              <li>Optimización técnica Core Web Vitals</li>
+              <li>Reportes mensuales de tráfico y leads</li>
+            </ul>
+            <a href="#cotizador" class="card-link" data-preselect="seo">Impulsar SEO &rarr;</a>
+          </article>
+
+          <!-- 3. WhatsApp Business -->
+          <article class="service-card" data-tilt>
+            <div class="card-glow"></div>
+            <div class="service-icon emerald">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" />
+              </svg>
+            </div>
+            <span class="service-tag">CONVERSATIONAL COMMERCE</span>
+            <h3>WhatsApp Business Pro</h3>
+            <p>Transforma tu WhatsApp en una máquina de ventas: API oficial, catálogos interactivos, etiquetas CRM, respuestas rápidas y flujos automáticos.</p>
+            <ul class="service-list">
+              <li>Integración oficial WhatsApp Business API</li>
+              <li>Embudos de venta y seguimiento automático</li>
+              <li>Múltiples agentes en una sola línea</li>
+            </ul>
+            <a href="#cotizador" class="card-link" data-preselect="whatsapp">Automatizar WhatsApp &rarr;</a>
+          </article>
+
+          <!-- 4. Robots para Empresas -->
+          <article class="service-card" data-tilt>
+            <div class="card-glow"></div>
+            <div class="service-icon cyan">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="4" y="8" width="16" height="12" rx="3" />
+                <path d="M12 2v6M9 14h.01M15 14h.01M9 17h6" />
+              </svg>
+            </div>
+            <span class="service-tag">AI AGENTS &amp; BOTS</span>
+            <h3>Robots para Empresas</h3>
+            <p>Agentes virtuales inteligentes entrenados con la información de tu negocio. Atienden clientes, agendan citas y cotizan 24/7 sin descanso.</p>
+            <ul class="service-list">
+              <li>Chatbots IA para Web, WhatsApp e Instagram</li>
+              <li>Agendamiento automático en Google Calendar</li>
+              <li>Conexión con CRM y bases de datos</li>
+            </ul>
+            <a href="#cotizador" class="card-link" data-preselect="robot">Crear mi Robot &rarr;</a>
+          </article>
+
+          <!-- 5. Menús Digitales -->
+          <article class="service-card" data-tilt>
+            <div class="card-glow"></div>
+            <div class="service-icon amber">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="4" y="4" width="6" height="6" rx="1" />
+                <rect x="14" y="4" width="6" height="6" rx="1" />
+                <rect x="4" y="14" width="6" height="6" rx="1" />
+                <path d="M14 14h2v2h-2zM18 14h2v6h-6v-2" />
+              </svg>
+            </div>
+            <span class="service-tag">SMART HOSPITALITY</span>
+            <h3>Menús Digitales QR</h3>
+            <p>Cartas digitales interactivas para restaurantes, cafés y hoteles. Tus clientes escanean el QR, ven fotos HD y envían su pedido directo a WhatsApp o cocina.</p>
+            <ul class="service-list">
+              <li>Actualización de precios y platos al instante</li>
+              <li>Carrito de pedidos directo a WhatsApp</li>
+              <li>Sin comisiones por venta ni apps externas</li>
+            </ul>
+            <a href="#cotizador" class="card-link" data-preselect="menu">Solicitar Menú QR &rarr;</a>
+          </article>
+
+          <!-- 6. Servicio de Aplicaciones -->
+          <article class="service-card" data-tilt>
+            <div class="card-glow"></div>
+            <div class="service-icon purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="7" y="2" width="10" height="20" rx="2" />
+                <path d="M11 18h2M10 7h4M10 11h4" />
+              </svg>
+            </div>
+            <span class="service-tag">MOBILE &amp; CLOUD APPS</span>
+            <h3>Servicio de Aplicaciones</h3>
+            <p>Desarrollo de aplicaciones móviles (iOS &amp; Android), Progressive Web Apps (PWA) y software empresarial a medida para digitalizar tus operaciones.</p>
+            <ul class="service-list">
+              <li>Apps nativas, híbridas y paneles administrativos</li>
+              <li>Sistemas de reservas, inventario y delivery</li>
+              <li>Integración de pagos online y notificaciones</li>
+            </ul>
+            <a href="#cotizador" class="card-link" data-preselect="app">Desarrollar App &rarr;</a>
+          </article>
+        </div>
+
+        <!-- Extra Capabilities Bar -->
+        <div class="extra-services-bar">
+          <div class="extra-label">TAMBIÉN INCLUIMOS SOLUCIONES COMPLEMENTARIAS:</div>
+          <div class="extra-pills">
+            <span>Pasarelas de Pago</span>
+            <span>Automatización n8n / Make</span>
+            <span>Branding &amp; Identidad Visual</span>
+            <span>Email Marketing</span>
+            <span>Integración CRM &amp; ERP</span>
+            <span>Mantenimiento &amp; Seguridad Cloud</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Live Demos Section -->
+    <section class="section section-alt" id="demos">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">LABORATORIO INTERACTIVO</span>
+          <h2 class="section-title">Prueba nuestra tecnología <span class="text-gradient">en tiempo real</span></h2>
+          <p class="section-desc">
+            No solo lo prometemos: interactúa ahora mismo con nuestros prototipos funcionales de Robot IA, Menú Digital y Simulador SEO.
+          </p>
+        </div>
+
+        <div class="demo-shell">
+          <div class="demo-tabs" role="tablist" aria-label="Demos interactivos">
+            <button class="demo-tab active" data-tab="bot" role="tab" aria-selected="true">
+              <span class="tab-dot cyan"></span> Robot IA &amp; WhatsApp
+            </button>
+            <button class="demo-tab" data-tab="menu" role="tab" aria-selected="false">
+              <span class="tab-dot amber"></span> Menú Digital QR
+            </button>
+            <button class="demo-tab" data-tab="seo" role="tab" aria-selected="false">
+              <span class="tab-dot purple"></span> Impacto SEO Web
+            </button>
+          </div>
+
+          <div class="demo-panels">
+            <!-- Panel 1: Robot IA & WhatsApp -->
+            <div class="demo-panel active" id="panel-bot">
+              <div class="demo-split">
+                <div class="demo-info">
+                  <h3>Robot Empresarial + WhatsApp Business</h3>
+                  <p>Simula una conversación real con un agente automatizado entrenado para responder dudas, mostrar servicios y agendar clientes en segundos.</p>
+                  <div class="quick-prompts">
+                    <span class="prompt-label">Prueba preguntar:</span>
+                    <button class="prompt-btn" data-msg="¿Cómo funciona el robot para WhatsApp?">¿Cómo funciona el robot para WhatsApp?</button>
+                    <button class="prompt-btn" data-msg="Quiero un menú digital para mi restaurante">Quiero un menú digital para mi restaurante</button>
+                    <button class="prompt-btn" data-msg="¿En cuánto tiempo posicionan en Google?">¿En cuánto tiempo posicionan en Google?</button>
+                  </div>
+                </div>
+
+                <div class="chat-sim">
+                  <div class="chat-sim-header">
+                    <div class="chat-avatar">AI</div>
+                    <div>
+                      <strong>NovaBot Empresarial</strong>
+                      <span>En línea &bull; Respuesta &lt; 1s</span>
+                    </div>
+                  </div>
+                  <div class="chat-sim-body" id="demoChatBody">
+                    <div class="msg bot">
+                      ¡Hola! Soy el asistente inteligente de <strong>NovaWeb by Vega</strong>. Puedo atender a tus clientes por WhatsApp y web las 24 horas. ¿Qué te gustaría probar?
+                    </div>
+                  </div>
+                  <form class="chat-sim-input" id="demoChatForm">
+                    <input type="text" id="demoChatInput" placeholder="Escribe un mensaje al robot..." autocomplete="off" />
+                    <button type="submit" aria-label="Enviar mensaje">Enviar</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel 2: Menú Digital QR -->
+            <div class="demo-panel" id="panel-menu">
+              <div class="demo-split">
+                <div class="demo-info">
+                  <h3>Menú Digital Interactivo con Pedido Directo</h3>
+                  <p>Tus clientes escanean el código QR en la mesa o desde Instagram, eligen sus platos y envían el pedido listo por WhatsApp sin pagar comisiones a terceros.</p>
+                  <div class="menu-cart-summary" id="menuCartSummary">
+                    <div class="cart-head">
+                      <span>Tu Pedido Simulado</span>
+                      <span id="cartCount">0 ítems</span>
+                    </div>
+                    <div class="cart-items" id="cartItems">
+                      <p class="cart-empty">Agrega platos desde la vista previa &rarr;</p>
+                    </div>
+                    <div class="cart-footer">
+                      <span>Total: <strong id="cartTotal">$0.00</strong></span>
+                      <button type="button" class="btn btn-primary btn-sm" id="simulateOrderBtn">Simular Envío a WhatsApp</button>
+                    </div>
+                    <div class="order-feedback" id="orderFeedback"></div>
+                  </div>
+                </div>
+
+                <div class="phone-mockup">
+                  <div class="phone-notch"></div>
+                  <div class="phone-screen">
+                    <div class="menu-brand-bar">
+                      <strong>BISTRO CYBERIA</strong>
+                      <span>Mesa #04 &bull; QR Activo</span>
+                    </div>
+                    <div class="menu-cats">
+                      <button class="menu-cat active" data-cat="burgers">Burgers</button>
+                      <button class="menu-cat" data-cat="bebidas">Bebidas</button>
+                      <button class="menu-cat" data-cat="postres">Postres</button>
+                    </div>
+                    <div class="menu-list" id="menuList">
+                      <!-- Populated by JS -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel 3: SEO Impact -->
+            <div class="demo-panel" id="panel-seo">
+              <div class="demo-split">
+                <div class="demo-info">
+                  <h3>Simulador de Posicionamiento SEO Empresarial</h3>
+                  <p>Compara una web tradicional sin optimizar frente a una arquitectura NovaWeb con SEO técnico, contenido semántico y Google Maps optimizado.</p>
+                  <div class="seo-toggle-wrap">
+                    <button class="seo-mode-btn active" data-mode="after">Con Arquitectura NovaWeb</button>
+                    <button class="seo-mode-btn" data-mode="before">Web Tradicional Sin SEO</button>
+                  </div>
+                  <div class="seo-kpis">
+                    <div class="seo-kpi">
+                      <span>Posición Media Google</span>
+                      <strong id="seoPos">#1 - #2</strong>
+                    </div>
+                    <div class="seo-kpi">
+                      <span>Visitas Orgánicas / Mes</span>
+                      <strong id="seoTraffic">14,800+</strong>
+                    </div>
+                    <div class="seo-kpi">
+                      <span>Conversión a WhatsApp</span>
+                      <strong id="seoConv">6.8%</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="serp-preview">
+                  <div class="serp-bar">
+                    <span class="serp-lock">&#128274;</span> google.com/search?q=mejor+servicio+empresarial
+                  </div>
+                  <div class="serp-result" id="serpResult">
+                    <span class="serp-badge" id="serpBadge">POSICIÓN #1 ORGÁNICA</span>
+                    <div class="serp-url">https://tuempresa.com &rsaquo; soluciones</div>
+                    <h4 class="serp-title" id="serpTitle">Tu Empresa | Soluciones Digitales Líderes y Atención 24/7</h4>
+                    <p class="serp-desc" id="serpDesc">
+                      Sitio web ultrarrápido optimizado para Google. Cotización inmediata por WhatsApp Business, catálogo interactivo y soporte inteligente.
+                    </p>
+                    <div class="serp-sitelinks" id="serpSitelinks">
+                      <span>Servicios Web</span>
+                      <span>Catálogo / Menú</span>
+                      <span>WhatsApp Directo</span>
+                      <span>Reseñas 4.9 &#9733;</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Quote Configurator -->
+    <section class="section" id="cotizador">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">COTIZADOR INTELIGENTE</span>
+          <h2 class="section-title">Arma tu paquete <span class="text-gradient">a la medida</span></h2>
+          <p class="section-desc">
+            Selecciona los servicios que necesita tu empresa y obtén al instante un resumen técnico y estimación de entrega.
+          </p>
+        </div>
+
+        <div class="configurator-grid">
+          <div class="config-options">
+            <h3 class="config-step-title">1. Elige tus servicios</h3>
+            <div class="service-checks" id="serviceChecks">
+              <label class="check-card">
+                <input type="checkbox" value="web" data-name="Página Web Profesional" data-days="7" data-price="450" checked />
+                <span class="check-box"></span>
+                <div class="check-meta">
+                  <strong>Creación de Página Web</strong>
+                  <span>Diseño futurista + responsive + SSL</span>
+                </div>
+              </label>
+
+              <label class="check-card">
+                <input type="checkbox" value="seo" data-name="SEO & Posicionamiento Web" data-days="5" data-price="300" />
+                <span class="check-box"></span>
+                <div class="check-meta">
+                  <strong>SEO &amp; Posicionamiento Web</strong>
+                  <span>Google Search + Maps + Analítica</span>
+                </div>
+              </label>
+
+              <label class="check-card">
+                <input type="checkbox" value="whatsapp" data-name="WhatsApp Business Pro" data-days="3" data-price="220" />
+                <span class="check-box"></span>
+                <div class="check-meta">
+                  <strong>WhatsApp Business Pro</strong>
+                  <span>API + Flujos automáticos + Catálogo</span>
+                </div>
+              </label>
+
+              <label class="check-card">
+                <input type="checkbox" value="robot" data-name="Robot IA para Empresas" data-days="5" data-price="380" />
+                <span class="check-box"></span>
+                <div class="check-meta">
+                  <strong>Robots para Empresas (IA)</strong>
+                  <span>Agente 24/7 entrenado con tu negocio</span>
+                </div>
+              </label>
+
+              <label class="check-card">
+                <input type="checkbox" value="menu" data-name="Menú Digital QR" data-days="3" data-price="180" />
+                <span class="check-box"></span>
+                <div class="check-meta">
+                  <strong>Menú Digital Interactivo</strong>
+                  <span>QR + Pedidos directos a WhatsApp</span>
+                </div>
+              </label>
+
+              <label class="check-card">
+                <input type="checkbox" value="app" data-name="Aplicación Móvil / Web App" data-days="18" data-price="950" />
+                <span class="check-box"></span>
+                <div class="check-meta">
+                  <strong>Servicio de Aplicaciones</strong>
+                  <span>App iOS/Android o sistema interno</span>
+                </div>
+              </label>
+            </div>
+
+            <h3 class="config-step-title" style="margin-top: 1.75rem;">2. Escala de tu empresa</h3>
+            <div class="scale-selector" id="scaleSelector">
+              <button type="button" class="scale-btn active" data-mult="1" data-label="Emprendedor / Negocio Local">Emprendedor</button>
+              <button type="button" class="scale-btn" data-mult="1.35" data-label="PyME en Crecimiento">PyME</button>
+              <button type="button" class="scale-btn" data-mult="1.8" data-label="Empresa / Corporativo">Corporativo</button>
+            </div>
+          </div>
+
+          <aside class="config-summary">
+            <div class="summary-header">
+              <span>RESUMEN DE ARQUITECTURA</span>
+              <span class="summary-badge" id="summaryScale">Emprendedor / Negocio Local</span>
+            </div>
+
+            <div class="summary-list" id="summaryList">
+              <!-- Populated by JS -->
+            </div>
+
+            <div class="summary-stats">
+              <div>
+                <span>Tiempo estimado</span>
+                <strong id="summaryDays">7 días hábiles</strong>
+              </div>
+              <div>
+                <span>Inversión estimada desde</span>
+                <strong class="cyan" id="summaryPrice">$450 USD</strong>
+                <span id="summaryPriceCop" style="margin-top: 0.2rem; font-weight: 600; color: #e2e8f0;">~$1.890.000 COP</span>
+              </div>
+            </div>
+
+            <p class="summary-note">
+              * Estimación referencial (TRM ref. 1 USD = $4.200 COP). Al enviar tu configuración te entregamos una propuesta exacta y hoja de ruta gratuita.
+            </p>
+
+            <a href="#contacto" class="btn btn-primary btn-full" id="applyQuoteBtn">
+              <span>Solicitar esta Propuesta</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="section section-alt" id="proceso">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">METODOLOGÍA NOVAWEB</span>
+          <h2 class="section-title">De la idea al <span class="text-gradient">despliegue total</span></h2>
+        </div>
+
+        <div class="process-grid">
+          <div class="process-step">
+            <span class="step-num">01</span>
+            <h3>Diagnóstico Digital</h3>
+            <p>Analizamos tu mercado, competencia en Google y cuellos de botella en atención al cliente.</p>
+          </div>
+          <div class="process-step">
+            <span class="step-num">02</span>
+            <h3>Diseño &amp; Prototipo</h3>
+            <p>Creamos una interfaz futurista, intuitiva y alineada a la identidad de tu marca.</p>
+          </div>
+          <div class="process-step">
+            <span class="step-num">03</span>
+            <h3>Desarrollo &amp; IA</h3>
+            <p>Programamos tu web, app, menú QR, SEO técnico y conectamos tus robots de WhatsApp.</p>
+          </div>
+          <div class="process-step">
+            <span class="step-num">04</span>
+            <h3>Lanzamiento &amp; Escala</h3>
+            <p>Desplegamos en servidores de alta velocidad y monitoreamos métricas de conversión.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section" id="faq">
+      <div class="container faq-container">
+        <div class="section-header">
+          <span class="section-eyebrow">PREGUNTAS FRECUENTES</span>
+          <h2 class="section-title">Resolvemos tus <span class="text-gradient">dudas clave</span></h2>
+        </div>
+
+        <div class="faq-list" id="faqList">
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">
+              <span>¿Puedo contratar solo un servicio o combinar varios en un solo paquete?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              <p>Puedes contratar cualquier servicio de forma individual (por ejemplo, solo tu menú digital QR o solo posicionamiento SEO) o integrarlos todos en un ecosistema conectado con descuentos por paquete.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">
+              <span>¿Los robots de WhatsApp Business responden de forma natural?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              <p>Sí. Combinamos flujos estructurados con Inteligencia Artificial entrenada con tu catálogo, precios y preguntas frecuentes para que el cliente sienta una atención rápida, cordial y precisa las 24 horas.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">
+              <span>¿Qué incluye el servicio de menú digital para restaurantes?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              <p>Incluye diseño visual atractivo con categorías y fotos, generación de códigos QR listos para imprimir en mesas, panel para cambiar precios o agotar platos al instante y envío directo de pedidos a tu WhatsApp.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">
+              <span>¿Entregan el código y administración total de mi página web o aplicación?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              <p>100%. Eres dueño total de tu dominio, sitio web, base de datos y aplicación. Además, te brindamos capacitación y soporte técnico continuo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section section-alt" id="contacto">
+      <div class="container">
+        <div class="contact-card">
+          <div class="contact-info">
+            <span class="section-eyebrow">CONECTA CON NOSOTROS</span>
+            <h2>Lleva tu empresa al <span class="text-gradient">siguiente nivel</span></h2>
+            <p>Cuéntanos qué proyecto tienes en mente. Te respondemos en minutos con una asesoría estratégica sin costo.</p>
+
+            <div class="contact-channels">
+              <a class="channel-item" href="https://wa.me/573000560656?text=Hola%20NovaWeb%20by%20Vega%2C%20quiero%20cotizar%20un%20proyecto%20digital" target="_blank" rel="noopener noreferrer">
+                <span class="channel-label">WhatsApp Directo</span>
+                <strong>+57 300 056 0656 &rarr;</strong>
+              </a>
+              <a class="channel-item" href="tel:+573000560656">
+                <span class="channel-label">Línea de Llamadas</span>
+                <strong>300 056 0656</strong>
+              </a>
+              <a class="channel-item" href="mailto:direccionnovawebvega.com@novawebbyvega.com">
+                <span class="channel-label">Correo Corporativo</span>
+                <strong>direccionnovawebvega.com@novawebbyvega.com</strong>
+              </a>
+              <div class="channel-item">
+                <span class="channel-label">Cobertura &amp; Horario Robots IA</span>
+                <strong>Toda Colombia y Global &bull; 24/7</strong>
+              </div>
+            </div>
+          </div>
+
+          <form class="contact-form" id="contactForm">
+            <!-- Honeypot anti-bot -->
+            <input type="text" id="cWebsite" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;" aria-hidden="true" />
+            <div class="form-row">
+              <div class="field">
+                <label for="cName">Nombre completo</label>
+                <input type="text" id="cName" required placeholder="Ej. Carlos Mendoza" />
+              </div>
+              <div class="field">
+                <label for="cCompany">Empresa o Negocio</label>
+                <input type="text" id="cCompany" placeholder="Ej. Restaurante Sabores" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="field">
+                <label for="cEmail">Correo electrónico</label>
+                <input type="email" id="cEmail" required placeholder="carlos@empresa.com" />
+              </div>
+              <div class="field">
+                <label for="cPhone">WhatsApp / Teléfono</label>
+                <input type="tel" id="cPhone" required placeholder="+57 300 123 4567" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="cMessage">Servicios de interés y detalles</label>
+              <textarea id="cMessage" rows="4" required placeholder="Cuéntanos si necesitas página web, SEO, WhatsApp Business, robot IA, menú digital o aplicación..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">
+              <span>Enviar Solicitud Inteligente</span>
+            </button>
+            <div class="form-feedback" id="formFeedback" role="status"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <strong>NovaWeb by Vega</strong>
+        <p>Creación de Páginas Web, Diseño Digital, Posicionamiento SEO, Automatización WhatsApp, Robots IA, Menús Digitales y Aplicaciones.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#servicios">Servicios</a>
+        <a href="#demos">Demos</a>
+        <a href="#cotizador">Cotizador</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <div class="footer-copy">
+        &copy; 2026 NovaWeb by Vega | Creación de Páginas Web y Diseño Digital. Todos los derechos reservados.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating AI Widget -->
+  <div class="floating-bot" id="floatingBot">
+    <button class="bot-fab" id="botFab" aria-label="Abrir asistente virtual">
+      <span class="fab-ping"></span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="4" y="8" width="16" height="12" rx="3" />
+        <path d="M12 2v6M9 14h.01M15 14h.01" />
+      </svg>
+    </button>
+    <div class="bot-drawer" id="botDrawer" aria-hidden="true">
+      <div class="bot-drawer-head">
+        <div>
+          <strong>Asistente NovaWeb IA</strong>
+          <span>Responde al instante</span>
+        </div>
+        <button id="closeBotDrawer" aria-label="Cerrar chat">&times;</button>
+      </div>
+      <div class="bot-drawer-body" id="floatChatBody">
+        <div class="msg bot">¡Hola! ¿En qué servicio te ayudo hoy? Puedo orientarte sobre Web, SEO, WhatsApp Business, Robots IA, Menú Digital o Apps.</div>
+      </div>
+      <form class="bot-drawer-form" id="floatChatForm">
+        <input type="text" id="floatChatInput" placeholder="Escribe tu consulta..." autocomplete="off" />
+        <button type="submit">&rarr;</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
