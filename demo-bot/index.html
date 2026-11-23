@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#090B10" />
+  <title>Demo Bot Optimizado 24/7 | NovaWeb by Vega</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090B10;
+      --surface: #141824;
+      --surface-alt: #1B2130;
+      --border: #252E42;
+      --primary: #0066FF;
+      --accent: #00C2FF;
+      --whatsapp: #25D366;
+      --wa-bg: #0B141A;
+      --wa-header: #1F2C34;
+      --wa-in: #1F2C34;
+      --wa-out: #005C4B;
+      --text: #FFFFFF;
+      --muted: #94A3B8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: calc(50px + env(safe-area-inset-bottom)); overflow-x: clip; }
+
+    /* Barra superior NovaWeb by Vega */
+    .agency-bar {
+      background: linear-gradient(90deg, #003399, #0066FF);
+      color: #fff;
+      font-size: 12px;
+      padding: 9px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      gap: 8px;
+    }
+    .agency-bar a {
+      background: #090B10;
+      color: #00C2FF;
+      text-decoration: none;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .container { max-width: 920px; margin: 0 auto; padding: 0 16px; }
+
+    /* Encabezado */
+    .header-box { text-align: center; padding: 26px 0 18px; }
+    .tag-pill {
+      display: inline-block;
+      background: rgba(0, 194, 255, 0.12);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    .header-box h1 { font-size: 26px; font-weight: 800; line-height: 1.2; }
+    .header-box p { color: var(--muted); font-size: 14px; margin-top: 8px; max-width: 620px; margin-inline: auto; }
+
+    /* Selector de Rubro */
+    .rubro-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin: 14px 0 22px;
+      flex-wrap: wrap;
+    }
+    .rubro-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .rubro-btn.active {
+      background: linear-gradient(90deg, #0066FF, #0099FF);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 0 18px rgba(0, 102, 255, 0.35);
+    }
+
+    /* Layout Principal: Celular + Panel CRM en Vivo */
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .demo-grid > * { min-width: 0; max-width: 100%; }
+    @media (max-width: 768px) {
+      .demo-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Simulador WhatsApp */
+    .phone-frame {
+      background: var(--wa-bg);
+      border: 2px solid #263147;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      height: 540px;
+    }
+    .wa-top {
+      background: var(--wa-header);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .wa-profile { display: flex; align-items: center; gap: 10px; }
+    .wa-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .wa-name { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 5px; }
+    .verified-dot {
+      background: var(--whatsapp);
+      color: #090B10;
+      font-size: 9px;
+      font-weight: 900;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .wa-status { font-size: 11px; color: var(--whatsapp); }
+
+    .reset-chat-btn {
+      background: rgba(255,255,255,0.08);
+      border: none;
+      color: #CBD5E1;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* Área de Mensajes */
+    .chat-area {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 18px 18px;
+    }
+    .msg {
+      max-width: 84%;
+      padding: 10px 13px;
+      border-radius: 14px;
+      font-size: 13px;
+      line-height: 1.45;
+      position: relative;
+      animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    .msg-bot {
+      background: var(--wa-in);
+      color: #E9EDEF;
+      align-self: flex-start;
+      border-top-left-radius: 4px;
+    }
+    .msg-user {
+      background: var(--wa-out);
+      color: #FFFFFF;
+      align-self: flex-end;
+      border-top-right-radius: 4px;
+    }
+    .msg-time {
+      display: block;
+      text-align: right;
+      font-size: 10px;
+      color: rgba(255,255,255,0.55);
+      margin-top: 4px;
+    }
+
+    /* Tarjeta interna en el chat (Catálogo / Ubicación / PDF) */
+    .rich-card {
+      background: #141D24;
+      border: 1px solid rgba(0, 194, 255, 0.25);
+      border-radius: 10px;
+      padding: 10px;
+      margin-top: 8px;
+      font-size: 12px;
+    }
+    .rich-card strong { color: var(--accent); display: block; margin-bottom: 3px; }
+
+    /* Botones Rápidos del Bot */
+    .quick-replies {
+      padding: 10px 12px;
+      background: #111B21;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      scrollbar-width: none;
+    }
+    .quick-replies::-webkit-scrollbar { display: none; }
+    .qr-btn {
+      background: rgba(0, 102, 255, 0.16);
+      border: 1px solid var(--primary);
+      color: #7DD3FC;
+      padding: 7px 12px;
+      border-radius: 18px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .qr-btn:hover { background: var(--primary); color: #fff; }
+
+    /* Input de texto */
+    .chat-input-bar {
+      background: var(--wa-header);
+      padding: 10px 12px;
+      display: flex;
+      gap: 8px;
+    }
+    .chat-input-bar input {
+      flex: 1;
+      min-width: 0;
+      background: #2A3942;
+      border: none;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 20px;
+      font-size: 16px;
+      outline: none;
+    }
+    .send-btn {
+      background: var(--whatsapp);
+      color: #090B10;
+      border: none;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      font-weight: 900;
+      cursor: pointer;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    /* Panel Lateral: CRM y Automatización en Tiempo Real */
+    .crm-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+    }
+    .crm-panel h3 { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+    .crm-sub { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+
+    .crm-field {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    .crm-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
+    .crm-value { font-size: 14px; font-weight: 800; color: #fff; margin-top: 4px; }
+    .badge-tag {
+      display: inline-block;
+      background: rgba(0, 194, 255, 0.15);
+      color: var(--accent);
+      padding: 3px 9px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .benefits-mini {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: #CBD5E1;
+      line-height: 1.7;
+    }
+    .cta-panel-btn {
+      display: block;
+      text-align: center;
+      margin-top: 16px;
+      background: linear-gradient(90deg, #0066FF, #0099FF);
+      color: #fff;
+      text-decoration: none;
+      padding: 13px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra Agencia -->
+  <div class="agency-bar">
+    <span>🤖 Demo Bot Optimizado • <strong>NovaWeb by Vega</strong></span>
+    <a href="https://wa.me/573000560656?text=Hola%20NovaWeb%20by%20Vega,%20prob%C3%A9%20el%20demo%20del%20Bot%20Optimizado%20y%20quiero%20uno%20para%20mi%20negocio" target="_blank" rel="noopener noreferrer">
+      Cotizar mi Bot →
+    </a>
+  </div>
+
+  <div class="container">
+    <div class="header-box">
+      <span class="tag-pill">AUTOMATIZACIÓN WHATSAPP & INSTAGRAM // 24/7</span>
+      <h1>Prueba cómo tu Bot atiende, filtra y vende solo</h1>
+      <p>Elige un tipo de negocio, toca los botones del chat o escribe una pregunta y mira cómo el sistema clasifica al cliente en vivo.</p>
+    </div>
+
+    <!-- Selector de Rubro -->
+    <div class="rubro-tabs">
+      <button class="rubro-btn active" onclick="switchRubro('tienda', this)">👟 Tienda / E-Commerce</button>
+      <button class="rubro-btn" onclick="switchRubro('clinica', this)">🏥 Clínica / Estética</button>
+      <button class="rubro-btn" onclick="switchRubro('servicios', this)">🏢 Servicios / Inmobiliaria</button>
+    </div>
+
+    <div class="demo-grid">
+      <!-- Celular WhatsApp -->
+      <div class="phone-frame">
+        <div class="wa-top">
+          <div class="wa-profile">
+            <div class="wa-avatar" id="botAvatar">👟</div>
+            <div>
+              <div class="wa-name"><span id="botName">Urban Step Store</span> <span class="verified-dot">✓</span></div>
+              <div class="wa-status" id="botStatus">● En línea • Respuesta &lt; 1s</div>
+            </div>
+          </div>
+          <button class="reset-chat-btn" onclick="resetChat()">↻ Reiniciar</button>
+        </div>
+
+        <div class="chat-area" id="chatArea"></div>
+
+        <div class="quick-replies" id="quickReplies"></div>
+
+        <form class="chat-input-bar" onsubmit="handleFormSubmit(event)">
+          <input type="text" id="userInput" placeholder="Escribe un mensaje o toca una opción..." autocomplete="off">
+          <button type="submit" class="send-btn">➤</button>
+        </form>
+      </div>
+
+      <!-- Panel CRM en Tiempo Real -->
+      <div class="crm-panel">
+        <h3>📊 Panel Interno del Cliente</h3>
+        <p class="crm-sub">Así recibe tu equipo al cliente ya filtrado por el bot:</p>
+
+        <div class="crm-field">
+          <div class="crm-label">Estado del Prospecto</div>
+          <div class="crm-value" id="crmStatus">🟡 Conversación Iniciada</div>
+        </div>
+
+        <div class="crm-field">
+          <div class="crm-label">Etiqueta Automática CRM</div>
+          <div><span class="badge-tag" id="crmTag">#Nuevo_Contacto</span></div>
+        </div>
+
+        <div class="crm-field">
+          <div class="crm-label">Acción Ejecutada por el Bot</div>
+          <div class="crm-value" id="crmAction" style="font-size:13px; color:#CBD5E1;">Bienvenida y menú de opciones enviado</div>
+        </div>
+
+        <div class="benefits-mini">
+          <div>✅ Respuestas inmediatas 24/7 sin perder ventas nocturnas</div>
+          <div>✅ Envío automático de catálogos, precios y ubicación</div>
+          <div>✅ Transferencia a asesor humano con historial listo</div>
+        </div>
+
+        <a class="cta-panel-btn" href="https://wa.me/573000560656?text=Hola%20NovaWeb%20by%20Vega,%20quiero%20implementar%20el%20Bot%20Optimizado%20en%20mi%20WhatsApp%20($890.000%20COP)" target="_blank" rel="noopener noreferrer">
+          Implementar este Bot en mi Negocio →
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const scenarios = {
+      tienda: {
+        name: "Urban Step Store",
+        avatar: "👟",
+        welcome: "¡Hola! 👋 Bienvenido a *Urban Step Store*. Soy tu asistente virtual 24/7.\n\n¿Qué te gustaría consultar hoy?",
+        options: [
+          { label: "📦 Ver Catálogo y Precios", key: "catalogo" },
+          { label: "🚚 Envíos y Pagos", key: "envios" },
+          { label: "📍 Ubicación Tienda", key: "ubicacion" },
+          { label: "👤 Hablar con Asesor", key: "asesor" }
+        ],
+        responses: {
+          catalogo: {
+            text: "¡Claro! Aquí tienes nuestra colección más vendida con envío gratis a toda Colombia:",
+            card: { title: "👟 Catálogo Digital 2026 (PDF + Web)", body: "• Tenis Runner Pro — $189.000 COP\n• Edición Urbana Black — $210.000 COP\n• Tallas disponibles: 37 a 43" },
+            status: "🟢 Interés Alto (Catálogo)",
+            tag: "#Interes_Catalogo",
+            action: "Envió catálogo con precios y tallas disponibles",
+            nextOptions: [
+              { label: "💳 Quiero comprar talla 40", key: "comprar" },
+              { label: "🚚 ¿Cuánto tarda el envío?", key: "envios" },
+              { label: "👤 Hablar con Asesor", key: "asesor" }
+            ]
+          },
+          comprar: {
+            text: "¡Excelente elección! 🎉 Te comparto el enlace de pago seguro (PSE, Nequi, Addi o Tarjeta) y te conecto con un asesor para confirmar tu guía de despacho.",
+            card: { title: "🔗 Enlace de Pago Generado", body: "Referencia #US-409 • Envío asegurado incluido" },
+            status: "🔥 Cliente Listo para Pagar",
+            tag: "#Cierre_Venta",
+            action: "Generó link de pago y notificó al asesor de despachos",
+            nextOptions: [
+              { label: "👤 Confirmar con Asesor", key: "asesor" },
+              { label: "📦 Ver más modelos", key: "catalogo" }
+            ]
+          },
+          envios: {
+            text: "Hacemos envíos asegurados a todo Colombia:\n• **Bucaramanga y área metropolitana:** Entrega el mismo día.\n• **Ciudades principales:** 24 a 48 horas hábiles.\n• Aceptamos Nequi, DaviPlata, PSE, tarjetas y pago contraentrega.",
+            status: "🟡 Consultando Condiciones",
+            tag: "#Consulta_Envios",
+            action: "Resolvió duda logística sin intervención humana",
+            nextOptions: [
+              { label: "📦 Ver Catálogo", key: "catalogo" },
+              { label: "👤 Hablar con Asesor", key: "asesor" }
+            ]
+          },
+          ubicacion: {
+            text: "Visítanos en nuestra tienda física:\n📍 **Cra. 35 #48-20, Cabecera, Bucaramanga**\n🕒 Lunes a Sábado de 9:30 a.m. a 7:30 p.m.",
+            card: { title: "🗺️ Pin de Google Maps Enviado", body: "Cómo llegar + Parqueadero gratuito para clientes" },
+            status: "🟢 Visita Potencial a Tienda",
+            tag: "#Visita_Tienda",
+            action: "Compartió ubicación GPS y horarios de atención",
+            nextOptions: [
+              { label: "📦 Ver Catálogo", key: "catalogo" },
+              { label: "👤 Hablar con Asesor", key: "asesor" }
+            ]
+          },
+          asesor: {
+            text: "✅ ¡Listo! He transferido tu conversación a **Camila (Asesora Comercial)** junto con el resumen de lo que consultaste. Te responderá en menos de 2 minutos.",
+            status: "🔵 Transferido a Asesor Humano",
+            tag: "#Asesor_Asignado",
+            action: "Notificación enviada al equipo comercial con historial",
+            nextOptions: [
+              { label: "📦 Volver al Menú Principal", key: "catalogo" }
+            ]
+          }
+        }
+      },
+
+      clinica: {
+        name: "VitalDerma Estética",
+        avatar: "🏥",
+        welcome: "¡Hola! ✨ Bienvenido a *VitalDerma Clínica Estética*. Puedo ayudarte a cotizar tratamientos o agendar tu valoración en segundos.",
+        options: [
+          { label: "💆♀️ Tratamientos y Precios", key: "catalogo" },
+          { label: "📅 Agendar Valoración", key: "comprar" },
+          { label: "📍 Sede y Horarios", key: "ubicacion" },
+          { label: "👩⚕️ Hablar con Especialista", key: "asesor" }
+        ],
+        responses: {
+          catalogo: {
+            text: "Estos son nuestros protocolos faciales y corporales más solicitados este mes:",
+            card: { title: "✨ Lista Oficial de Precios", body: "• Limpieza Facial Profunda + Hidratación — $120.000 COP\n• Láser Depilación (Paquete 3 sesiones) — $290.000 COP\n• Valoración Médica Inicial — Sin costo" },
+            status: "🟢 Interés Alto (Tratamientos)",
+            tag: "#Interes_Tratamiento",
+            action: "Envió portafolio de tratamientos y tarifas vigentes",
+            nextOptions: [
+              { label: "📅 Agendar cita esta semana", key: "comprar" },
+              { label: "👩⚕️ Consultar con Especialista", key: "asesor" }
+            ]
+          },
+          comprar: {
+            text: "¡Perfecto! Tenemos disponibilidad mañana en los siguientes bloques:\n• **10:00 a.m.**\n• **3:30 p.m.**\n• **5:00 p.m.**\n\nYa dejé pre-reservado tu cupo y notifiqué a recepción para confirmarte.",
+            card: { title: "🗓️ Pre-Reserva en Agenda", body: "Valoración Personalizada • Recordatorio automático por WhatsApp" },
+            status: "🔥 Cita Pre-Agendada",
+            tag: "#Cita_Agendada",
+            action: "Bloqueó espacio en agenda y activó recordatorio",
+            nextOptions: [
+              { label: "📍 Ver dirección de la clínica", key: "ubicacion" },
+              { label: "👩⚕️ Hablar con Recepción", key: "asesor" }
+            ]
+          },
+          ubicacion: {
+            text: "Estamos ubicados en:\n📍 **Calle 52 #31-45, Consultorio 402**\n🕒 Lunes a Sábado de 8:00 a.m. a 7:00 p.m.",
+            card: { title: "🗺️ Ubicación Google Maps", body: "Edificio Médico • Fácil acceso y parqueadero" },
+            status: "🟢 Consultando Ubicación",
+            tag: "#Ubicacion_Clinica",
+            action: "Envió ubicación exacta y horarios",
+            nextOptions: [
+              { label: "📅 Agendar Valoración", key: "comprar" },
+              { label: "💆♀️ Ver Precios", key: "catalogo" }
+            ]
+          },
+          asesor: {
+            text: "✅ Te he conectado con nuestra coordinadora clínica para resolver tus dudas médicas personalizadas de inmediato.",
+            status: "🔵 Transferido a Coordinadora",
+            tag: "#Atencion_Especialista",
+            action: "Derivó caso con etiquetas de interés al equipo",
+            nextOptions: [
+              { label: "💆♀️ Ver Tratamientos", key: "catalogo" }
+            ]
+          }
+        }
+      },
+
+      servicios: {
+        name: "Inmobiliaria Horizonte",
+        avatar: "🏢",
+        welcome: "¡Hola! 🏢 Soy el asistente digital de *Inmobiliaria Horizonte*. Dime qué estás buscando para enviarte opciones disponibles al instante.",
+        options: [
+          { label: "🏠 Arriendos Disponibles", key: "catalogo" },
+          { label: "🔑 Compra de Inmuebles", key: "comprar" },
+          { label: "📄 Requisitos de Arriendo", key: "envios" },
+          { label: "👔 Contactar Agente", key: "asesor" }
+        ],
+        responses: {
+          catalogo: {
+            text: "Tenemos apartamentos y locales listos para entrega inmediata en las mejores zonas:",
+            card: { title: "🏠 Portafolio Destacado", body: "• Apto 3 Hab. Cabecera — $1.650.000 COP/mes\n• Apartaestudio Moderno — $1.100.000 COP/mes\n• Local Comercial Esquinero — $2.400.000 COP/mes" },
+            status: "🟢 Lead Calificado (Arriendo)",
+            tag: "#Busca_Arriendo",
+            action: "Filtró necesidad y envió fichas técnicas con fotos",
+            nextOptions: [
+              { label: "📅 Agendar visita al inmueble", key: "asesor" },
+              { label: "📄 Ver requisitos", key: "envios" }
+            ]
+          },
+          comprar: {
+            text: "¡Excelente! Contamos con proyectos sobre planos y vivienda usada con financiación bancaria:\n• Apartamentos desde **$240.000.000 COP**\n• Asesoría completa en crédito hipotecario.",
+            card: { title: "🔑 Catálogo de Venta", body: "Fotos HD, recorridos y simulación de cuota inicial" },
+            status: "🔥 Lead Calificado (Compra)",
+            tag: "#Inversion_Compra",
+            action: "Clasificó prospecto comprador y envió portafolio",
+            nextOptions: [
+              { label: "👔 Hablar con Ejecutivo", key: "asesor" },
+              { label: "🏠 Ver Arriendos", key: "catalogo" }
+            ]
+          },
+          envios: {
+            text: "Para arrendar con nosotros el estudio es 100% digital en 24 horas:\n• Cédula de ciudadanía\n• Certificación laboral o extractos bancarios\n• 1 codeudor con ingresos demostrables",
+            status: "🟡 Informado sobre Requisitos",
+            tag: "#Requisitos_OK",
+            action: "Envió checklist de documentos automáticamente",
+            nextOptions: [
+              { label: "🏠 Ver Inmuebles", key: "catalogo" },
+              { label: "👔 Agendar Visita", key: "asesor" }
+            ]
+          },
+          asesor: {
+            text: "✅ ¡Listo! Un agente inmobiliario asignado a tu zona ya recibió tus preferencias para coordinar la visita hoy mismo.",
+            status: "🔵 Asignado a Agente de Zona",
+            tag: "#Visita_Programada",
+            action: "Asignó lead calificado al agente comercial",
+            nextOptions: [
+              { label: "🏠 Ver más propiedades", key: "catalogo" }
+            ]
+          }
+        }
+      }
+    };
+
+    let currentRubro = "tienda";
+
+    function getTime() {
+      const now = new Date();
+      return now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }
+
+    function appendMessage(sender, text, card = null) {
+      const chat = document.getElementById("chatArea");
+      const div = document.createElement("div");
+      div.className = `msg ${sender === "bot" ? "msg-bot" : "msg-user"}`;
+
+      let html = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br>");
+      if (card) {
+        html += `
+          <div class="rich-card">
+            <strong>${card.title}</strong>
+            <div>${card.body.replace(/\n/g, "<br>")}</div>
+          </div>`;
+      }
+      html += `<span class="msg-time">${getTime()}</span>`;
+      div.innerHTML = html;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function renderQuickReplies(opts) {
+      const container = document.getElementById("quickReplies");
+      container.innerHTML = "";
+      opts.forEach(o => {
+        const btn = document.createElement("button");
+        btn.className = "qr-btn";
+        btn.innerText = o.label;
+        btn.onclick = () => triggerOption(o.label, o.key);
+        container.appendChild(btn);
+      });
+    }
+
+    function triggerOption(label, key) {
+      appendMessage("user", label);
+      document.getElementById("botStatus").innerText = "escribiendo...";
+
+      setTimeout(() => {
+        document.getElementById("botStatus").innerText = "● En línea • Respuesta < 1s";
+        const data = scenarios[currentRubro].responses[key] || scenarios[currentRubro].responses.catalogo;
+        appendMessage("bot", data.text, data.card || null);
+        renderQuickReplies(data.nextOptions);
+
+        // Actualizar Panel CRM
+        document.getElementById("crmStatus").innerText = data.status;
+        document.getElementById("crmTag").innerText = data.tag;
+        document.getElementById("crmAction").innerText = data.action;
+      }, 450);
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById("userInput");
+      const val = input.value.trim();
+      if (!val) return;
+      input.value = "";
+
+      const lower = val.toLowerCase();
+      let detectedKey = "catalogo";
+      if (lower.includes("precio") || lower.includes("catalogo") || lower.includes("catálogo") || lower.includes("cuanto") || lower.includes("cuánto")) detectedKey = "catalogo";
+      else if (lower.includes("envio") || lower.includes("envío") || lower.includes("pago") || lower.includes("requisito")) detectedKey = "envios";
+      else if (lower.includes("donde") || lower.includes("dónde") || lower.includes("ubicacion") || lower.includes("ubicación") || lower.includes("horario")) detectedKey = "ubicacion";
+      else if (lower.includes("cita") || lower.includes("agendar") || lower.includes("comprar")) detectedKey = "comprar";
+      else if (lower.includes("asesor") || lower.includes("humano") || lower.includes("persona")) detectedKey = "asesor";
+
+      triggerOption(val, detectedKey);
+    }
+
+    function switchRubro(rubro, btn) {
+      currentRubro = rubro;
+      document.querySelectorAll(".rubro-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      resetChat();
+    }
+
+    function resetChat() {
+      const sc = scenarios[currentRubro];
+      document.getElementById("botName").innerText = sc.name;
+      document.getElementById("botAvatar").innerText = sc.avatar;
+      document.getElementById("chatArea").innerHTML = "";
+      document.getElementById("crmStatus").innerText = "🟡 Conversación Iniciada";
+      document.getElementById("crmTag").innerText = "#Nuevo_Contacto";
+      document.getElementById("crmAction").innerText = "Bienvenida y menú de opciones enviado";
+
+      appendMessage("bot", sc.welcome);
+      renderQuickReplies(sc.options);
+    }
+
+    resetChat();
+  </script>
+</body>
+</html>
