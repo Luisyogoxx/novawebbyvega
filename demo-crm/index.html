@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#090B10" />
+  <title>Demo CRM Comercial & Seguimiento | NovaWeb by Vega</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090B10;
+      --surface: #141824;
+      --surface-alt: #1B2130;
+      --border: #263047;
+      --primary: #0066FF;
+      --accent: #00C2FF;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --whatsapp: #25D366;
+      --text: #FFFFFF;
+      --muted: #94A3B8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: calc(50px + env(safe-area-inset-bottom)); overflow-x: clip; }
+
+    /* Barra superior NovaWeb by Vega */
+    .agency-bar {
+      background: linear-gradient(90deg, #003399, #0066FF);
+      color: #fff;
+      font-size: 12px;
+      padding: 9px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      gap: 8px;
+    }
+    .agency-bar a {
+      background: #090B10;
+      color: #00C2FF;
+      text-decoration: none;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .container { max-width: 1240px; margin: 0 auto; padding: 0 16px; }
+
+    /* Encabezado */
+    .header-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      padding: 24px 0 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tag-pill {
+      display: inline-block;
+      background: rgba(0, 194, 255, 0.12);
+      color: var(--accent);
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .header-box h1 { font-size: 24px; font-weight: 800; }
+    .header-box p { color: var(--muted); font-size: 13px; margin-top: 3px; }
+
+    .filter-advisor {
+      background: var(--surface);
+      border: 1px solid var(--primary);
+      border-radius: 12px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      max-width: 100%;
+    }
+    .filter-advisor span { font-size: 11.5px; color: var(--accent); font-weight: 800; }
+    .advisor-select {
+      background: #090B10;
+      color: #fff;
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      outline: none;
+      max-width: 100%;
+    }
+
+    /* KPIs del Embudo */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 15px;
+    }
+    .kpi-label { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; }
+    .kpi-val { font-size: 22px; font-weight: 800; margin-top: 6px; }
+    .kpi-sub { font-size: 11.5px; margin-top: 4px; font-weight: 600; }
+
+    /* Barra para Simular Nuevo Lead Entrante */
+    .lead-generator-bar {
+      background: linear-gradient(135deg, #141C33, #141824);
+      border: 1px solid var(--primary);
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 0.9fr 0.8fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+    .lead-generator-bar > * { min-width: 0; max-width: 100%; }
+    @media (max-width: 900px) {
+      .lead-generator-bar { grid-template-columns: 1fr; }
+    }
+    .input-crm {
+      background: #090B10;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 9px 12px;
+      border-radius: 9px;
+      font-size: 16px;
+      outline: none;
+      width: 100%;
+    }
+    .input-crm:focus { border-color: var(--accent); }
+    .btn-new-lead {
+      background: linear-gradient(90deg, #0066FF, #00C2FF);
+      color: #090B10;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* Tablero Kanban (4 Etapas) */
+    .kanban-board {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+    .kanban-board > * { min-width: 0; max-width: 100%; }
+    @media (max-width: 1024px) {
+      .kanban-board { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .kanban-board { grid-template-columns: 1fr; }
+    }
+
+    .kanban-col {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      min-height: 410px;
+    }
+    .col-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+    }
+    .col-title { font-size: 13.5px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
+    .col-count {
+      background: var(--surface-alt);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    /* Tarjeta de Prospecto (Lead Card) */
+    .lead-card {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 12px;
+      margin-bottom: 10px;
+      transition: 0.2s;
+      position: relative;
+    }
+    .lead-card:hover { border-color: var(--primary); }
+    .lead-card.alert-stale {
+      border-color: var(--danger);
+      box-shadow: 0 0 14px rgba(239, 68, 68, 0.16);
+    }
+
+    .lead-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .lead-name { font-size: 13.5px; font-weight: 800; color: #fff; }
+    .source-tag {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: rgba(0, 194, 255, 0.14);
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .lead-product { font-size: 12px; color: #CBD5E1; margin-bottom: 6px; }
+    .lead-amount { font-size: 14px; font-weight: 800; color: var(--success); margin-bottom: 8px; }
+
+    .advisor-badge {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--muted);
+      background: #090B10;
+      padding: 5px 8px;
+      border-radius: 7px;
+      margin-bottom: 8px;
+    }
+
+    .stale-banner {
+      background: rgba(239, 68, 68, 0.16);
+      color: #FCA5A5;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 8px;
+      border-radius: 7px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .btn-nudge {
+      background: var(--whatsapp);
+      color: #090B10;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 10.5px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 6px;
+    }
+    .move-btn {
+      flex: 1;
+      background: #090B10;
+      border: 1px solid var(--border);
+      color: #E2E8F0;
+      padding: 6px 8px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .move-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .move-btn.win {
+      background: rgba(16, 185, 129, 0.16);
+      border-color: var(--success);
+      color: #34D399;
+    }
+
+    /* Toast de Notificación */
+    .toast-msg {
+      position: fixed;
+      bottom: calc(18px + env(safe-area-inset-bottom));
+      right: 18px;
+      left: 18px;
+      max-width: 420px;
+      margin-left: auto;
+      background: #141C33;
+      border: 1px solid var(--accent);
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 12.5px;
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.45);
+      display: none;
+      z-index: 80;
+    }
+
+    /* CTA Final */
+    .cta-box {
+      margin-top: 24px;
+      background: linear-gradient(135deg, #141C33, #141824);
+      border: 1px solid var(--primary);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .cta-box a {
+      background: linear-gradient(90deg, #0066FF, #0099FF);
+      color: #fff;
+      text-decoration: none;
+      padding: 13px 22px;
+      border-radius: 11px;
+      font-weight: 800;
+      font-size: 13.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra Agencia -->
+  <div class="agency-bar">
+    <span>🎯 Demo CRM Comercial & Seguimiento • <strong>NovaWeb by Vega</strong></span>
+    <a href="https://wa.me/573000560656?text=Hola%20NovaWeb%20by%20Vega,%20prob%C3%A9%20el%20demo%20del%20CRM%20Comercial%20y%20Seguimiento%20y%20quiero%20cotizarlo%20($1.790.000%20COP)" target="_blank" rel="noopener noreferrer">
+      Cotizar CRM Comercial →
+    </a>
+  </div>
+
+  <div class="container">
+    <!-- Encabezado -->
+    <div class="header-box">
+      <div>
+        <span class="tag-pill">EMBUDO DE VENTAS // REPARTO AUTO • ALERTAS 24H</span>
+        <h1>CRM Comercial &amp; Seguimiento Automático</h1>
+        <p>Simula el ingreso de un prospecto, avanza clientes por el embudo y activa seguimientos automáticos por WhatsApp.</p>
+      </div>
+
+      <div class="filter-advisor">
+        <span>👤 VER ASESOR:</span>
+        <select id="advisorFilter" class="advisor-select" onchange="renderBoard()">
+          <option value="ALL">Todos los Vendedores (Equipo Completo)</option>
+          <option value="Camila R.">Camila R. (Asesora 1)</option>
+          <option value="Andrés M.">Andrés M. (Asesor 2)</option>
+          <option value="Valentina G.">Valentina G. (Asesora 3)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Dinero en Negociación (Embudo)</div>
+        <div class="kpi-val" id="kpiPipeline" style="color:var(--accent);">$0</div>
+        <div class="kpi-sub" style="color:var(--muted);">Cotizaciones activas por cerrar</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Ventas Cerradas (Ganadas)</div>
+        <div class="kpi-val" id="kpiWon" style="color:var(--success);">$0</div>
+        <div class="kpi-sub" style="color:var(--success);">▲ Tasa de cierre optimizada</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Alertas de Seguimiento Activas</div>
+        <div class="kpi-val" id="kpiAlerts" style="color:var(--danger);">0</div>
+        <div class="kpi-sub" style="color:#FCA5A5;">Chats que requieren toque hoy</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Próxima Asignación Auto</div>
+        <div class="kpi-val" id="kpiNextAdvisor" style="font-size:18px; color:#fff;">Camila R.</div>
+        <div class="kpi-sub" style="color:var(--accent);">Reparto equitativo Round-Robin</div>
+      </div>
+    </div>
+
+    <!-- Simulador de Nuevo Prospecto Entrante -->
+    <div class="lead-generator-bar">
+      <input type="text" id="leadNameInput" class="input-crm" placeholder="Nombre del cliente (ej. Constructora Bolívar)">
+      <input type="text" id="leadProductInput" class="input-crm" placeholder="Interés (ej. Dotación 40 equipos)">
+      <input type="number" id="leadAmountInput" class="input-crm" value="1850000" step="50000" placeholder="Valor COP">
+      <select id="leadChannelInput" class="input-crm">
+        <option value="WhatsApp">💬 WhatsApp</option>
+        <option value="Instagram">📸 Instagram</option>
+        <option value="Google Ads">🔍 Google</option>
+      </select>
+      <button class="btn-new-lead" onclick="addIncomingLead()">+ Simular Lead Entrante</button>
+    </div>
+
+    <!-- Tablero Kanban 4 Etapas -->
+    <div class="kanban-board">
+      <!-- Etapa 1 -->
+      <div class="kanban-col">
+        <div class="col-header" style="border-bottom-color:#3B82F6;">
+          <span class="col-title">📥 Nuevo Lead</span>
+          <span class="col-count" id="count-new">0</span>
+        </div>
+        <div id="col-new"></div>
+      </div>
+
+      <!-- Etapa 2 -->
+      <div class="kanban-col">
+        <div class="col-header" style="border-bottom-color:#00C2FF;">
+          <span class="col-title">📄 Cotizado</span>
+          <span class="col-count" id="count-quoted">0</span>
+        </div>
+        <div id="col-quoted"></div>
+      </div>
+
+      <!-- Etapa 3 -->
+      <div class="kanban-col">
+        <div class="col-header" style="border-bottom-color:#F59E0B;">
+          <span class="col-title">🤝 En Negociación</span>
+          <span class="col-count" id="count-negotiation">0</span>
+        </div>
+        <div id="col-negotiation"></div>
+      </div>
+
+      <!-- Etapa 4 -->
+      <div class="kanban-col">
+        <div class="col-header" style="border-bottom-color:#10B981;">
+          <span class="col-title">🏆 Cerrado / Ganado</span>
+          <span class="col-count" id="count-won">0</span>
+        </div>
+        <div id="col-won"></div>
+      </div>
+    </div>
+
+    <!-- CTA Final -->
+    <div class="cta-box">
+      <div>
+        <strong style="font-size:16px;">¿Tus vendedores pierden cotizaciones por olvidar hacer seguimiento en WhatsApp?</strong>
+        <p style="font-size:13px; color:var(--muted); margin-top:4px;">
+          Implementamos tu CRM Comercial con reparto automático y alertas de seguimiento por $1.790.000 COP.
+        </p>
+      </div>
+      <a href="https://wa.me/573000560656?text=Hola%20NovaWeb%20by%20Vega,%20quiero%20implementar%20el%20CRM%20Comercial%20y%20Seguimiento%20($1.790.000%20COP)" target="_blank" rel="noopener noreferrer">
+        Implementar CRM en mi Empresa →
+      </a>
+    </div>
+  </div>
+
+  <!-- Toast de Notificación -->
+  <div id="toastBox" class="toast-msg"></div>
+
+  <script>
+    const advisors = ["Camila R.", "Andrés M.", "Valentina G."];
+    let advisorIndex = 0;
+
+    let leads = [
+      { id: 1, name: "Clínica Dental Sonrisas", product: "Paquete Corporativo + Citas", amount: 2400000, source: "WhatsApp", advisor: "Camila R.", stage: "negotiation", stale: true, staleText: "⚠️ 26h sin respuesta" },
+      { id: 2, name: "Distribuidora El Sol", product: "Catálogo Mayorista 120 unid.", amount: 3100000, source: "Google Ads", advisor: "Andrés M.", stage: "quoted", stale: true, staleText: "⚠️ Cotizado hace 48h" },
+      { id: 3, name: "Boutique Alma Rosa", product: "Tienda Virtual E-Commerce", amount: 3200000, source: "Instagram", advisor: "Valentina G.", stage: "won", stale: false, staleText: "" },
+      { id: 4, name: "Restaurante La Brasa", product: "Sistema Comandas + Menú QR", amount: 1690000, source: "WhatsApp", advisor: "Camila R.", stage: "new", stale: false, staleText: "" },
+      { id: 5, name: "Inmobiliaria Capital", product: "Agente IA + Panel Interno", amount: 4800000, source: "WhatsApp", advisor: "Andrés M.", stage: "won", stale: false, staleText: "" }
+    ];
+
+    function formatCOP(val) {
+      return "$" + Number(val).toLocaleString("es-CO");
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById("toastBox");
+      box.innerHTML = msg;
+      box.style.display = "block";
+      setTimeout(() => { box.style.display = "none"; }, 3400);
+    }
+
+    function addIncomingLead() {
+      const name = document.getElementById("leadNameInput").value.trim() || "Comercializadora del Norte";
+      const product = document.getElementById("leadProductInput").value.trim() || "Cotización Empresarial";
+      const amount = Number(document.getElementById("leadAmountInput").value) || 1200000;
+      const source = document.getElementById("leadChannelInput").value;
+
+      const assignedAdvisor = advisors[advisorIndex];
+      advisorIndex = (advisorIndex + 1) % advisors.length;
+
+      leads.unshift({
+        id: Date.now(),
+        name: name,
+        product: product,
+        amount: amount,
+        source: source,
+        advisor: assignedAdvisor,
+        stage: "new",
+        stale: false,
+        staleText: ""
+      });
+
+      document.getElementById("leadNameInput").value = "";
+      document.getElementById("leadProductInput").value = "";
+      document.getElementById("kpiNextAdvisor").innerText = advisors[advisorIndex];
+
+      renderBoard();
+      showToast(`⚡ Nuevo lead <strong>${name}</strong> asignado automáticamente a <strong>${assignedAdvisor}</strong>`);
+    }
+
+    function moveLead(id, nextStage) {
+      const lead = leads.find(l => l.id === id);
+      if (!lead) return;
+      lead.stage = nextStage;
+      lead.stale = false;
+      renderBoard();
+
+      if (nextStage === "won") {
+        showToast(`🏆 ¡Venta cerrada con <strong>${lead.name}</strong> por <strong>${formatCOP(lead.amount)}</strong>!`);
+      } else {
+        showToast(`✅ <strong>${lead.name}</strong> avanzó en el embudo comercial.`);
+      }
+    }
+
+    function sendAutoFollowUp(id) {
+      const lead = leads.find(l => l.id === id);
+      if (!lead) return;
+      lead.stale = false;
+      renderBoard();
+      showToast(`📲 Recordatorio automático enviado por WhatsApp a <strong>${lead.name}</strong> y notificado a <strong>${lead.advisor}</strong>.`);
+    }
+
+    function renderBoard() {
+      const filter = document.getElementById("advisorFilter").value;
+      const cols = {
+        new: document.getElementById("col-new"),
+        quoted: document.getElementById("col-quoted"),
+        negotiation: document.getElementById("col-negotiation"),
+        won: document.getElementById("col-won")
+      };
+
+      Object.values(cols).forEach(c => c.innerHTML = "");
+
+      const counts = { new: 0, quoted: 0, negotiation: 0, won: 0 };
+      let pipelineTotal = 0;
+      let wonTotal = 0;
+      let alertsCount = 0;
+
+      const filteredLeads = filter === "ALL" ? leads : leads.filter(l => l.advisor === filter);
+
+      filteredLeads.forEach(lead => {
+        counts[lead.stage]++;
+        if (lead.stage === "won") wonTotal += lead.amount;
+        else pipelineTotal += lead.amount;
+        if (lead.stale) alertsCount++;
+
+        let actionButtons = "";
+        if (lead.stage === "new") {
+          actionButtons = `<button class="move-btn" onclick="moveLead(${lead.id}, 'quoted')">Enviar Cotización →</button>`;
+        } else if (lead.stage === "quoted") {
+          actionButtons = `<button class="move-btn" onclick="moveLead(${lead.id}, 'negotiation')">Pasar a Negociación →</button>`;
+        } else if (lead.stage === "negotiation") {
+          actionButtons = `<button class="move-btn win" onclick="moveLead(${lead.id}, 'won')">🏆 Cerrar Venta</button>`;
+        } else {
+          actionButtons = `<div style="font-size:11px; color:#34D399; font-weight:800; text-align:center; width:100%;">✅ Facturado y Registrado</div>`;
+        }
+
+        const staleHTML = lead.stale ? `
+          <div class="stale-banner">
+            <span>${lead.staleText}</span>
+            <button class="btn-nudge" onclick="sendAutoFollowUp(${lead.id})">📲 Seguimiento Auto</button>
+          </div>` : "";
+
+        cols[lead.stage].innerHTML += `
+          <div class="lead-card ${lead.stale ? 'alert-stale' : ''}">
+            <div class="lead-top">
+              <div class="lead-name">${lead.name}</div>
+              <span class="source-tag">${lead.source}</span>
+            </div>
+            <div class="lead-product">${lead.product}</div>
+            <div class="lead-amount">${formatCOP(lead.amount)}</div>
+            <div class="advisor-badge">
+              <span>👤 Asignado: <strong>${lead.advisor}</strong></span>
+            </div>
+            ${staleHTML}
+            <div class="card-actions">${actionButtons}</div>
+          </div>
+        `;
+      });
+
+      document.getElementById("count-new").innerText = counts.new;
+      document.getElementById("count-quoted").innerText = counts.quoted;
+      document.getElementById("count-negotiation").innerText = counts.negotiation;
+      document.getElementById("count-won").innerText = counts.won;
+
+      document.getElementById("kpiPipeline").innerText = formatCOP(pipelineTotal);
+      document.getElementById("kpiWon").innerText = formatCOP(wonTotal);
+      document.getElementById("kpiAlerts").innerText = alertsCount;
+    }
+
+    renderBoard();
+  </script>
+</body>
+</html>
