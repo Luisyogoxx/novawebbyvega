@@ -34,13 +34,19 @@ html {
   color: var(--text);
   font-family: var(--font-body);
   line-height: 1.6;
-  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 body {
   position: relative;
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+main, section, header, footer {
+  max-width: 100%;
 }
 
 a {
@@ -1603,7 +1609,54 @@ button, input, textarea {
     grid-template-columns: 1fr;
   }
 
-  .contact-card { padding: 1.5rem; }
+  .contact-card { padding: 1.25rem; gap: 1.5rem; }
+  .demo-panels { padding: 1.1rem; }
+  .hero { padding-top: 6.2rem; }
+  .section { padding: 3.8rem 0; }
+
+  /* Fix CSS Grid/Flex horizontal overflow on iOS Safari & Android */
+  .hero-grid > *,
+  .demo-split > *,
+  .configurator-grid > *,
+  .contact-card > *,
+  .form-row > *,
+  .hud-stat-row > *,
+  .seo-kpis > *,
+  .services-grid > *,
+  .process-grid > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .contact-info,
+  .contact-form,
+  .contact-channels,
+  .channel-item,
+  .field,
+  .field input,
+  .field textarea,
+  .hud-card,
+  .hud-terminal,
+  .demo-shell,
+  .config-summary,
+  .btn-full {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .channel-item strong,
+  .serp-url,
+  .hud-terminal,
+  .summary-item {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .footer {
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+  }
 
   /* Prevent iOS Safari auto-zoom on form inputs */
   input, textarea, select {
