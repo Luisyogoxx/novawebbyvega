@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#090B10" />
+  <title>Demo Posicionamiento SEO & Google Maps | NovaWeb by Vega</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090B10;
+      --surface: #141824;
+      --surface-alt: #1C2233;
+      --border: #262F45;
+      --primary: #0066FF;
+      --accent: #00C2FF;
+      --gold: #F5B841;
+      --success: #10B981;
+      --danger: #EF4444;
+      --text: #FFFFFF;
+      --muted: #94A3B8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: calc(60px + env(safe-area-inset-bottom)); overflow-x: clip; }
+
+    /* Barra superior NovaWeb by Vega */
+    .agency-bar {
+      background: linear-gradient(90deg, #003399, #0066FF);
+      color: #fff;
+      font-size: 12px;
+      padding: 9px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      gap: 8px;
+    }
+    .agency-bar a {
+      background: #090B10;
+      color: #00C2FF;
+      text-decoration: none;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .container { max-width: 820px; margin: 0 auto; padding: 0 16px; }
+
+    /* Encabezado del Simulador */
+    .header-box {
+      text-align: center;
+      padding: 28px 0 20px;
+    }
+    .tag-pill {
+      display: inline-block;
+      background: rgba(0, 194, 255, 0.12);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    .header-box h1 { font-size: 26px; font-weight: 800; line-height: 1.2; }
+    .header-box p { color: var(--muted); font-size: 14px; margin-top: 8px; max-width: 600px; margin-inline: auto; }
+
+    /* Interruptor Antes / Después */
+    .toggle-wrapper {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 18px 0;
+      flex-wrap: wrap;
+    }
+    .mode-btn {
+      padding: 11px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .mode-btn.active-pro {
+      background: linear-gradient(90deg, #0066FF, #0099FF);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(0, 102, 255, 0.35);
+    }
+    .mode-btn.active-bad {
+      background: rgba(239, 68, 68, 0.15);
+      color: #FCA5A5;
+      border-color: var(--danger);
+    }
+
+    /* Selector de Búsquedas en Google */
+    .keywords-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      scrollbar-width: none;
+    }
+    .keywords-bar::-webkit-scrollbar { display: none; }
+    .kw-chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: #CBD5E1;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .kw-chip.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0, 194, 255, 0.08);
+    }
+
+    /* Ventana Simulada de Google */
+    .browser-window {
+      background: #11141D;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+    }
+    .browser-top {
+      background: #181D2A;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .dots { display: flex; gap: 6px; }
+    .dots span { width: 10px; height: 10px; border-radius: 50%; display: block; }
+    .search-bar-sim {
+      flex: 1;
+      min-width: 0;
+      background: #090B10;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 7px 14px;
+      font-size: 13px;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .search-bar-sim span:first-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .serp-body { padding: 20px; }
+
+    /* Tarjeta Google Maps Local Pack */
+    .maps-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+    .maps-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+    .map-visual {
+      height: 95px;
+      border-radius: 10px;
+      background: radial-gradient(circle at 35% 50%, rgba(0, 102, 255, 0.25), transparent 55%),
+                  linear-gradient(135deg, #162033 0%, #0E131F 100%);
+      border: 1px solid var(--border);
+      margin-bottom: 12px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 0 10px;
+    }
+    .map-grid-lines {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .map-pin {
+      position: relative;
+      background: var(--primary);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 800;
+      box-shadow: 0 0 20px rgba(0, 102, 255, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-align: center;
+    }
+
+    .local-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid transparent;
+    }
+    .local-item.highlight {
+      background: rgba(0, 102, 255, 0.12);
+      border-color: var(--primary);
+    }
+    .local-item:last-child { margin-bottom: 0; }
+    .stars { color: var(--gold); font-size: 12px; font-weight: 700; }
+    .local-actions { display: flex; gap: 6px; }
+    .mini-pill {
+      font-size: 11px;
+      padding: 5px 9px;
+      border-radius: 8px;
+      background: var(--surface-alt);
+      color: var(--accent);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    /* Resultado Orgánico #1 */
+    .organic-card {
+      background: var(--surface);
+      border: 1px solid var(--primary);
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .organic-card.weak {
+      border-color: var(--border);
+      opacity: 0.7;
+    }
+    .rank-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+    }
+    .rank-top { background: rgba(16, 185, 129, 0.18); color: var(--success); }
+    .rank-low { background: rgba(239, 68, 68, 0.18); color: var(--danger); }
+
+    .url-line { font-size: 12px; color: #94A3B8; margin-bottom: 4px; overflow-wrap: anywhere; }
+    .serp-title { font-size: 17px; font-weight: 700; color: #60A5FA; margin-bottom: 6px; }
+    .serp-desc { font-size: 13px; color: #CBD5E1; line-height: 1.5; }
+    .sitelinks {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .sitelink-item {
+      background: var(--surface-alt);
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .sitelink-item strong { color: var(--accent); display: block; }
+    .sitelink-item span { color: var(--muted); font-size: 11px; }
+
+    /* Métricas de Impacto */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .metric-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      text-align: center;
+    }
+    .metric-val { font-size: 22px; font-weight: 800; color: var(--accent); }
+    .metric-val.bad { color: var(--danger); }
+    .metric-lbl { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+    /* CTA Final */
+    .cta-box {
+      margin-top: 24px;
+      background: linear-gradient(135deg, #141C33, #141824);
+      border: 1px solid var(--primary);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+    .cta-btn {
+      display: inline-block;
+      margin-top: 12px;
+      background: linear-gradient(90deg, #0066FF, #0099FF);
+      color: #fff;
+      text-decoration: none;
+      padding: 13px 24px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .metrics-grid { grid-template-columns: 1fr; }
+      .serp-body { padding: 14px; }
+      .dots { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra superior agencia -->
+  <div class="agency-bar">
+    <span>📈 Demo SEO & Google Maps • <strong>NovaWeb by Vega</strong></span>
+    <a href="https://wa.me/573000560656?text=Hola%20NovaWeb%20by%20Vega,%20vi%20el%20demo%20de%20Posicionamiento%20SEO%20(Joyer%C3%ADa%20%C3%81guila%20Dorada)%20y%20quiero%20posicionar%20mi%20empresa" target="_blank" rel="noopener noreferrer">
+      Posicionar mi Negocio →
+    </a>
+  </div>
+
+  <div class="container">
+    <div class="header-box">
+      <span class="tag-pill">CASO DEMOSTRATIVO // JOYERÍA ÁGUILA DORADA</span>
+      <h1>Así encuentran tus clientes tu empresa en Google</h1>
+      <p>Prueba alternar entre una empresa optimizada con <strong>NovaWeb by Vega</strong> y una web sin posicionamiento SEO.</p>
+    </div>
+
+    <!-- Switch Antes vs Después -->
+    <div class="toggle-wrapper">
+      <button id="btnPro" class="mode-btn active-pro" onclick="setMode('pro')">🚀 Con Estrategia SEO NovaWeb (Top #1)</button>
+      <button id="btnBad" class="mode-btn" onclick="setMode('bad')">📉 Sin SEO (Página 4 de Google)</button>
+    </div>
+
+    <!-- Palabras clave clicables -->
+    <div class="keywords-bar">
+      <button class="kw-chip active" onclick="selectKeyword('joyería en Bucaramanga oro 18k', this)">🔍 joyería en Bucaramanga oro 18k</button>
+      <button class="kw-chip" onclick="selectKeyword('anillos de compromiso certificados', this)">🔍 anillos de compromiso certificados</button>
+      <button class="kw-chip" onclick="selectKeyword('pulseras de oro y joyería fina', this)">🔍 pulseras de oro y joyería fina</button>
+    </div>
+
+    <!-- Simulador de Resultados Google -->
+    <div class="browser-window">
+      <div class="browser-top">
+        <div class="dots">
+          <span style="background:#EF4444;"></span>
+          <span style="background:#F59E0B;"></span>
+          <span style="background:#10B981;"></span>
+        </div>
+        <div class="search-bar-sim">
+          <span id="searchQueryDisplay">joyería en Bucaramanga oro 18k</span>
+          <span style="color:var(--accent); font-weight:700;">🔍 Google</span>
+        </div>
+      </div>
+
+      <div class="serp-body" id="serpContent"></div>
+    </div>
+
+    <!-- Métricas Estimadas -->
+    <div class="metrics-grid" id="metricsGrid"></div>
+
+    <!-- Llamado a la acción -->
+    <div class="cta-box">
+      <h3 style="font-size:18px; font-weight:800;">¿Quieres que tu negocio aparezca así cuando te busquen?</h3>
+      <p style="font-size:13px; color:var(--muted); margin-top:6px;">
+        Analizamos tu sector y tus palabras clave sin costo para mostrarte cuántas búsquedas mensuales puedes captar.
+      </p>
+      <a class="cta-btn" href="https://wa.me/573000560656?text=Hola%20NovaWeb%20by%20Vega,%20quiero%20una%20auditor%C3%ADa%20SEO%20gratuita%20para%20mi%20negocio" target="_blank" rel="noopener noreferrer">
+        Solicitar Auditoría SEO Gratuita →
+      </a>
+    </div>
+  </div>
+
+  <script>
+    let currentMode = "pro";
+    let currentKeyword = "joyería en Bucaramanga oro 18k";
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById("btnPro").className = mode === "pro" ? "mode-btn active-pro" : "mode-btn";
+      document.getElementById("btnBad").className = mode === "bad" ? "mode-btn active-bad" : "mode-btn";
+      renderDemo();
+    }
+
+    function selectKeyword(kw, btn) {
+      currentKeyword = kw;
+      document.getElementById("searchQueryDisplay").innerText = kw;
+      document.querySelectorAll(".kw-chip").forEach(c => c.classList.remove("active"));
+      btn.classList.add("active");
+      renderDemo();
+    }
+
+    function renderDemo() {
+      const serp = document.getElementById("serpContent");
+      const metrics = document.getElementById("metricsGrid");
+
+      if (currentMode === "pro") {
+        serp.innerHTML = `
+          <!-- Google Maps Local Pack -->
+          <div class="maps-box">
+            <div class="maps-header">
+              <span>📍 GOOGLE MAPS • TOP 3 LOCAL</span>
+              <span style="color:#10B981;">● Ficha Verificada & Optimizada</span>
+            </div>
+            <div class="map-visual">
+              <div class="map-grid-lines"></div>
+              <div class="map-pin">🦅 Joyería Águila Dorada • #1 en la zona (4.9 ★)</div>
+            </div>
+
+            <div class="local-item highlight">
+              <div>
+                <strong style="font-size:14px;">1. Joyería Águila Dorada 🦅</strong>
+                <div class="stars">4.9 ★★★★★ (184 reseñas) • Joyería oro 18k</div>
+                <div style="font-size:11px; color:#94A3B8;">Abierto ahora • Atención en tienda y envíos asegurados</div>
+              </div>
+              <div class="local-actions">
+                <span class="mini-pill">🌐 Web</span>
+                <span class="mini-pill">💬 WhatsApp</span>
+              </div>
+            </div>
+
+            <div class="local-item">
+              <div>
+                <strong style="font-size:13px; color:#94A3B8;">2. Joyería Competencia A</strong>
+                <div style="font-size:11px; color:#64748B;">4.1 ★★★★☆ (29 reseñas)</div>
+              </div>
+              <span style="font-size:11px; color:#64748B;">Sin web</span>
+            </div>
+          </div>
+
+          <!-- Resultado Orgánico #1 -->
+          <div class="organic-card">
+            <span class="rank-badge rank-top">POSICIÓN #1 ORGÁNICA EN GOOGLE</span>
+            <div class="url-line">🦅 https://joyeriaaguiladorada.com › coleccion-oro-18k</div>
+            <div class="serp-title">Joyería Águila Dorada | Anillos, Pulseras y Oro 18k Certificado</div>
+            <div class="serp-desc">
+              Especialistas en <strong>${currentKeyword}</strong>. Diseños exclusivos en oro de 18 quilates con garantía de autenticidad, asesoría personalizada y cotización inmediata por WhatsApp.
+            </div>
+            <div class="sitelinks">
+              <div class="sitelink-item">
+                <strong>Anillos de Compromiso</strong>
+                <span>Oro amarillo, blanco y rosa 18k</span>
+              </div>
+              <div class="sitelink-item">
+                <strong>Pulseras & Cadenas</strong>
+                <span>Catálogo con precios actualizados</span>
+              </div>
+              <div class="sitelink-item">
+                <strong>Cotizar por WhatsApp</strong>
+                <span>Atención directa sin intermediarios</span>
+              </div>
+            </div>
+          </div>
+        `;
+
+        metrics.innerHTML = `
+          <div class="metric-card">
+            <div class="metric-val">#1 - #2</div>
+            <div class="metric-lbl">Posición en Google & Maps</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">+3.400</div>
+            <div class="metric-lbl">Visitas orgánicas / mes</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">99 / 100</div>
+            <div class="metric-lbl">Velocidad Core Web Vitals</div>
+          </div>
+        `;
+      } else {
+        serp.innerHTML = `
+          <div class="maps-box" style="opacity:0.65;">
+            <div class="maps-header">
+              <span>📍 GOOGLE MAPS • SIN OPTIMIZAR</span>
+              <span style="color:#EF4444;">● Tu negocio no aparece en el Top 3</span>
+            </div>
+            <div class="local-item">
+              <div>
+                <strong style="font-size:13px;">1. Joyería Competencia A</strong>
+                <div class="stars">4.6 ★★★★★ (92 reseñas)</div>
+              </div>
+              <span style="font-size:11px; color:#94A3B8;">Se lleva los clics</span>
+            </div>
+            <div class="local-item">
+              <div>
+                <strong style="font-size:13px;">2. Joyería Competencia B</strong>
+                <div class="stars">4.4 ★★★★☆ (64 reseñas)</div>
+              </div>
+              <span style="font-size:11px; color:#94A3B8;">Se lleva las llamadas</span>
+            </div>
+          </div>
+
+          <div class="organic-card weak">
+            <span class="rank-badge rank-low">PÁGINA 4 DE GOOGLE (POSICIÓN #37)</span>
+            <div class="url-line">http://tu-sitio-sin-seo.com/index.html</div>
+            <div class="serp-title" style="color:#94A3B8;">Inicio - Bienvenidos a nuestra página</div>
+            <div class="serp-desc">
+              Página sin títulos SEO ni palabras clave como <strong>${currentKeyword}</strong>. Tarda más de 4 segundos en cargar en móviles y no tiene enlace directo a WhatsApp.
+            </div>
+          </div>
+        `;
+
+        metrics.innerHTML = `
+          <div class="metric-card">
+            <div class="metric-val bad">#37</div>
+            <div class="metric-lbl">Posición en Google</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val bad">~120</div>
+            <div class="metric-lbl">Visitas orgánicas / mes</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val bad">48 / 100</div>
+            <div class="metric-lbl">Velocidad Core Web Vitals</div>
+          </div>
+        `;
+      }
+    }
+
+    renderDemo();
+  </script>
+</body>
+</html>
