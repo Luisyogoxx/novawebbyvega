@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#090B10" />
+  <title>Cómo Funciona el Sistema de Citas | NovaWeb by Vega</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090B10;
+      --surface: #141824;
+      --surface-card: #1B2130;
+      --border: #263047;
+      --primary: #0066FF;
+      --accent: #00C2FF;
+      --pink: #FF6B9E;
+      --pink-soft: rgba(255, 107, 158, 0.12);
+      --success: #10B981;
+      --whatsapp: #25D366;
+      --text: #FFFFFF;
+      --muted: #94A3B8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: calc(50px + env(safe-area-inset-bottom)); overflow-x: clip; }
+
+    /* Barra superior NovaWeb by Vega */
+    .agency-bar {
+      background: linear-gradient(90deg, #003399, #0066FF);
+      color: #fff;
+      font-size: 12px;
+      padding: 9px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      gap: 8px;
+    }
+    .agency-bar a {
+      background: #090B10;
+      color: #00C2FF;
+      text-decoration: none;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+
+    /* Encabezado */
+    .header-box { text-align: center; padding: 26px 0 16px; }
+    .tag-pill {
+      display: inline-block;
+      background: rgba(0, 194, 255, 0.12);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .header-box h1 { font-size: 25px; font-weight: 800; }
+    .header-box p { color: var(--muted); font-size: 13.5px; margin-top: 6px; }
+
+    /* Barra de Progreso del Proceso */
+    .steps-nav {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin: 16px 0 24px;
+    }
+    @media (max-width: 768px) {
+      .steps-nav { grid-template-columns: repeat(2, 1fr); }
+    }
+    .step-node {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .step-node.active {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, #15223A 0%, var(--surface) 100%);
+      box-shadow: 0 0 16px rgba(0, 194, 255, 0.2);
+    }
+    .step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--border);
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 6px;
+    }
+    .step-node.active .step-num {
+      background: var(--accent);
+      color: #090B10;
+    }
+    .step-node h4 { font-size: 11.5px; font-weight: 700; color: var(--muted); }
+    .step-node.active h4 { color: #fff; }
+
+    /* Contenedor del Simulador */
+    .sim-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      align-items: center;
+    }
+    .sim-card > * { min-width: 0; max-width: 100%; }
+    @media (max-width: 820px) {
+      .sim-card { grid-template-columns: 1fr; padding: 16px; }
+    }
+
+    /* Lado Izquierdo: Explicación y Diagrama */
+    .sim-info h2 { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 10px; }
+    .sim-info p { font-size: 13.5px; color: var(--muted); line-height: 1.5; margin-bottom: 14px; }
+    .feature-badge {
+      display: inline-block;
+      background: var(--pink-soft);
+      color: var(--pink);
+      font-weight: 800;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    /* Flujo / Log técnico */
+    .tech-log {
+      background: #090B10;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 12px;
+      font-family: monospace;
+      color: #34D399;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+    .tech-log span { color: var(--accent); font-weight: 700; }
+
+    /* Lado Derecho: Celular o Pantalla Simulada */
+    .preview-box {
+      background: #090B10;
+      border: 2px solid var(--border);
+      border-radius: 22px;
+      overflow: hidden;
+      min-height: 400px;
+      box-shadow: 0 14px 35px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Móvil UI */
+    .phone-header {
+      background: #18202F;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .phone-content {
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Estilos del Widget de Citas */
+    .widget-box {
+      background: #1C2436;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .widget-title { font-size: 12px; font-weight: 800; color: var(--pink); margin-bottom: 8px; }
+    .doc-item {
+      background: #090B10;
+      border-radius: 10px;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+    .slot-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .slot-pill {
+      background: #151D2A;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 6px;
+      border-radius: 8px;
+      font-size: 11px;
+      text-align: center;
+      cursor: pointer;
+    }
+    .slot-pill.active { background: var(--pink); border-color: var(--pink); font-weight: 800; }
+
+    /* Mensaje WhatsApp */
+    .wa-message {
+      background: #1F2C34;
+      border-radius: 12px;
+      border-top-left-radius: 2px;
+      padding: 12px;
+      font-size: 12px;
+      color: #E9EDEF;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+    .wa-btn {
+      width: 100%;
+      background: var(--whatsapp);
+      color: #090B10;
+      border: none;
+      padding: 8px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 11.5px;
+      margin-top: 8px;
+      cursor: pointer;
+    }
+
+    /* Google Calendar Preview */
+    .calendar-preview {
+      background: #181D2A;
+      border-radius: 12px;
+      padding: 12px;
+      border: 1px solid #3B82F6;
+    }
+    .calendar-event {
+      background: rgba(59, 130, 246, 0.2);
+      border-left: 4px solid #3B82F6;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    /* Botones de Navegación */
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      gap: 10px;
+    }
+    .btn-action {
+      background: linear-gradient(90deg, #0066FF, #00C2FF);
+      color: #090B10;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    /* CTA Final */
+    .cta-box {
+      margin-top: 24px;
+      background: linear-gradient(135deg, #141C33, #141824);
+      border: 1px solid var(--primary);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .cta-box a {
+      background: linear-gradient(90deg, #0066FF, #0099FF);
+      color: #fff;
+      text-decoration: none;
+      padding: 13px 22px;
+      border-radius: 11px;
+      font-weight: 800;
+      font-size: 13.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra Agencia -->
+  <div class="agency-bar">
+    <span>🦷 Proceso de Citas Automatizado • <strong>NovaWeb by Vega</strong></span>
+    <a href="https://wa.me/573000560656?text=Hola%20NovaWeb%20by%20Vega,%20vi%20el%20demo%20del%20proceso%20completo%20de%20citas%20y%20quiero%20cotizar%20($1.190.000%20COP)" target="_blank" rel="noopener noreferrer">
+      Cotizar Sistema de Citas →
+    </a>
+  </div>
+
+  <div class="container">
+    <div class="header-box">
+      <span class="tag-pill">FLUJO COMPLETO // PACIENTE ⇄ CLÍNICA ⇄ WHATSAPP</span>
+      <h1>¿Cómo funciona el Sistema de Citas de Ortodoncia?</h1>
+      <p>Navega paso a paso por las 5 etapas del proceso para ver cómo se agenda, sincroniza, recuerda y confirma cada cita.</p>
+    </div>
+
+    <!-- Barra de Pasos -->
+    <div class="steps-nav">
+      <div id="stepNode-1" class="step-node active" onclick="goToStep(1)">
+        <div class="step-num">1</div>
+        <h4>El Paciente Agenda</h4>
+      </div>
+      <div id="stepNode-2" class="step-node" onclick="goToStep(2)">
+        <div class="step-num">2</div>
+        <h4>Sincroniza Agenda</h4>
+      </div>
+      <div id="stepNode-3" class="step-node" onclick="goToStep(3)">
+        <div class="step-num">3</div>
+        <h4>WhatsApp 24h Antes</h4>
+      </div>
+      <div id="stepNode-4" class="step-node" onclick="goToStep(4)">
+        <div class="step-num">4</div>
+        <h4>Confirma en Verde</h4>
+      </div>
+      <div id="stepNode-5" class="step-node" onclick="goToStep(5)">
+        <div class="step-num">5</div>
+        <h4>Alerta 2h / Llegada</h4>
+      </div>
+    </div>
+
+    <!-- Contenedor del Simulador -->
+    <div class="sim-card">
+      <!-- Izquierda: Explicación y lógica técnica -->
+      <div class="sim-info" id="simInfoContent"></div>
+
+      <!-- Derecha: Vista previa de pantalla / móvil -->
+      <div class="preview-box">
+        <div class="phone-header">
+          <span id="previewTitle">Celular del Paciente (Reserva)</span>
+          <span style="color:var(--accent); font-size:11px;">● En Vivo</span>
+        </div>
+        <div class="phone-content" id="previewContent"></div>
+      </div>
+    </div>
+
+    <!-- Botones de Navegación -->
+    <div class="nav-buttons">
+      <button id="btnPrev" class="btn-action" style="visibility:hidden;" onclick="prevStep()">← Paso Anterior</button>
+      <button id="btnNext" class="btn-action" onclick="nextStep()">Siguiente Paso →</button>
+    </div>
+
+    <!-- CTA Final -->
+    <div class="cta-box">
+      <div>
+        <strong style="font-size:16px;">¿Quieres acabar con las inasistencias en tu clínica de ortodoncia?</strong>
+        <p style="font-size:13px; color:var(--muted); margin-top:4px;">
+          Implementamos todo este flujo con tu marca y horarios por $1.190.000 COP (Pago único).
+        </p>
+      </div>
+      <a href="https://wa.me/573000560656?text=Hola%20NovaWeb%20by%20Vega,%20quiero%20el%20Sistema%20de%20Agendamiento%20y%20Citas%20($1.190.000%20COP)" target="_blank" rel="noopener noreferrer">
+        Implementar en mi Clínica →
+      </a>
+    </div>
+  </div>
+
+  <script>
+    let currentStep = 1;
+
+    const stepData = {
+      1: {
+        title: "Paso 1: El Paciente Agenda 24/7",
+        badge: "EXPERIENCIA DEL PACIENTE",
+        desc: "El paciente ingresa desde tu web, Instagram o enlace de WhatsApp. Selecciona su tratamiento (ej. Control de Ortodoncia), elige a la especialista y selecciona su hora ideal en tiempo real sin llamar al consultorio.",
+        log: "<span>[Paciente]</span> Ingresa al link de reserva.<br><span>[Sistema]</span> Carga horarios disponibles de Dra. Laura Vega.<br><span>[Selección]</span> Control Brackets • Jueves 10:30 AM.",
+        previewTitle: "Celular del Paciente (Widget de Reserva)",
+        previewHTML: `
+          <div class="widget-box">
+            <div class="widget-title">🦷 Sonrisa Dulce Ortodoncia</div>
+            <div class="doc-item">
+              <span style="font-size:18px;">👩⚕️</span>
+              <div>
+                <strong>Dra. Laura Vega</strong>
+                <div style="font-size:10px; color:var(--muted);">Ortodoncia Invisible & Estética</div>
+              </div>
+            </div>
+            <div style="font-size:11px; color:var(--muted); margin-bottom:6px;">Servicio: Control Mensual Brackets</div>
+            <div style="font-size:11px; font-weight:700; margin-bottom:6px;">Jueves 10:30 AM</div>
+            <div class="slot-row">
+              <div class="slot-pill">09:00 AM</div>
+              <div class="slot-pill active">10:30 AM</div>
+              <div class="slot-pill">11:30 AM</div>
+            </div>
+            <button class="btn-action" style="width:100%; margin-top:10px; padding:8px; font-size:11.5px;" onclick="nextStep()">Reservar Cita</button>
+          </div>
+        `
+      },
+      2: {
+        title: "Paso 2: Sincronización Automática en la Agenda",
+        badge: "GESTIÓN DE LA CLÍNICA",
+        desc: "Al instante de reservar, el sistema bloquea el horario en Google Calendar de la clínica. La secretaria y la especialista ven la cita inmediatamente en su agenda desde cualquier dispositivo sin digitar nada.",
+        log: "<span>[API Calendar]</span> Evento creado en Google Calendar.<br><span>[Paciente]</span> Mariana Pérez.<br><span>[Especialista]</span> Dra. Laura Vega.<br><span>[Bloqueo]</span> Jueves 10:30 AM - 11:15 AM.",
+        previewTitle: "Pantalla del Consultorio (Google Calendar)",
+        previewHTML: `
+          <div class="calendar-preview">
+            <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:8px;">
+              <strong>📅 JUEVES 26 DE MARZO</strong>
+              <span style="color:#60A5FA;">Google Calendar Sync</span>
+            </div>
+            <div class="calendar-event" style="opacity:0.6;">09:00 AM - 09:45 AM • Control - Andrés Ruiz</div>
+            <div class="calendar-event" style="background:rgba(255,107,158,0.2); border-left-color:var(--pink); font-weight:700;">
+              10:30 AM - 11:15 AM • Ortodoncia • Mariana Pérez (Dra. Vega)
+              <div style="font-size:10px; color:var(--muted); margin-top:2px;">🔔 Estado: Recordatorio pendiente</div>
+            </div>
+            <div class="calendar-event" style="opacity:0.6;">11:30 AM - 12:15 PM • Valoración - Sofía Castro</div>
+          </div>
+        `
+      },
+      3: {
+        title: "Paso 3: Recordatorio por WhatsApp 24 Horas Antes",
+        badge: "AUTOMATIZACIÓN WHATSAPP",
+        desc: "Exactamente 24 horas antes de la cita, el bot envía un mensaje formal e interactivo de WhatsApp al celular del paciente. Le recuerda fecha, hora, tratamiento y doctora con botones rápidos de confirmación.",
+        log: "<span>[Bot WhatsApp]</span> Disparando recordatorio a las 10:30 AM.<br><span>[Mensaje]</span> Enviado con botones interactivos.<br><span>[Meta]</span> Asegurar confirmación antes del día de atención.",
+        previewTitle: "WhatsApp del Paciente (24h Antes)",
+        previewHTML: `
+          <div class="wa-message">
+            ¡Hola Mariana! 🦷✨ Te recordamos tu cita mañana en <strong>Sonrisa Dulce Ortodoncia</strong>:<br><br>
+            📅 <strong>Fecha:</strong> Mañana Jueves<br>
+            🕒 <strong>Hora:</strong> 10:30 AM<br>
+            👩⚕️ <strong>Dra:</strong> Laura Vega (Control Brackets)<br><br>
+            Por favor confirma tocando una opción:
+            <button class="wa-btn" onclick="nextStep()">✅ Sí, confirmada</button>
+            <button class="wa-btn" style="background:#2C3E50; color:#E2E8F0; margin-top:4px;">🔄 Reagendar cita</button>
+          </div>
+        `
+      },
+      4: {
+        title: "Paso 4: Paciente Confirma y la Agenda se Vuelve Verde",
+        badge: "CONTROL DE INASISTENCIAS",
+        desc: "Cuando el paciente toca 'Sí, confirmada', el sistema procesa la respuesta, le agradece y actualiza automáticamente el color en el calendario de la clínica a verde ('Confirmada'). Así, recepción sabe exactamente quién asistirá.",
+        log: "<span>[WhatsApp]</span> Mariana Pérez marcó: CONFIRMADA.<br><span>[Agenda]</span> Cambió estado a 'CONFIRMADA' (Verde).<br><span>[Resultado]</span> Cita asegurada, cero huecos en el consultorio.",
+        previewTitle: "Google Calendar de la Clínica (Confirmado)",
+        previewHTML: `
+          <div class="calendar-preview" style="border-color:var(--success);">
+            <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:8px;">
+              <strong>📅 JUEVES 26 DE MARZO</strong>
+              <span style="color:var(--success);">● Confirmado por WhatsApp</span>
+            </div>
+            <div class="calendar-event" style="background:rgba(16, 185, 129, 0.18); border-left-color:var(--success); font-weight:700;">
+              10:30 AM • Mariana Pérez (Dra. Laura Vega)
+              <div style="color:var(--success); font-size:10px; font-weight:800; margin-top:3px;">✓ CONFIRMADA POR PACIENTE (WhatsApp)</div>
+            </div>
+            <div style="text-align:center; font-size:11px; color:var(--muted); margin-top:12px;">Recepción ya sabe que la paciente asistirá puntualmente.</div>
+          </div>
+        `
+      },
+      5: {
+        title: "Paso 5: Alerta Final 2 Horas Antes con Ubicación",
+        badge: "CIERRE DEL PROCESO",
+        desc: "Dos horas antes de la cita, se envía un último aviso por WhatsApp con la dirección exacta, torre, consultorio y enlace de Google Maps para garantizar que la paciente llegue a tiempo y sin perderse.",
+        log: "<span>[Bot WhatsApp]</span> Enviando recordatorio final 2h antes.<br><span>[Contenido]</span> Dirección + Consultorio + Google Maps.<br><span>[Paciente]</span> Cita cumplida exitosamente.",
+        previewTitle: "WhatsApp del Paciente (2h Antes - Llegada)",
+        previewHTML: `
+          <div class="wa-message">
+            ¡Mariana, nos vemos en 2 horas! 😊🦷<br><br>
+            Te esperamos a las <strong>10:30 AM</strong>.<br>
+            📍 <strong>Dirección:</strong> Edificio Médico, Consultorio 402<br>
+            🚗 Parqueadero gratuito en el sótano.<br><br>
+            📍 Enlace Google Maps para llegar:<br>
+            <span style="color:var(--accent);">https://maps.google.com/?cid=sonrisadulce</span>
+          </div>
+          <div style="text-align:center; font-size:11px; color:var(--success); font-weight:800; margin-top:10px;">
+            🎉 ¡Cero inasistencias logradas en piloto automático!
+          </div>
+        `
+      }
+    };
+
+    function goToStep(stepNum) {
+      currentStep = stepNum;
+
+      // Actualizar nodos superiores
+      for (let i = 1; i <= 5; i++) {
+        const node = document.getElementById(`stepNode-${i}`);
+        if (i === stepNum) node.classList.add("active");
+        else node.classList.remove("active");
+      }
+
+      // Cargar contenidos
+      const data = stepData[stepNum];
+      document.getElementById("simInfoContent").innerHTML = `
+        <span class="feature-badge">⚡ ${data.badge}</span>
+        <h2>${data.title}</h2>
+        <p>${data.desc}</p>
+        <div class="tech-log">
+          <div style="font-weight:800; margin-bottom:6px; color:#E2E8F0;">⚙️ Lo que hace el sistema en segundo plano:</div>
+          ${data.log}
+        </div>
+      `;
+
+      document.getElementById("previewTitle").innerText = data.previewTitle;
+      document.getElementById("previewContent").innerHTML = data.previewHTML;
+
+      // Botones navegación
+      document.getElementById("btnPrev").style.visibility = stepNum === 1 ? "hidden" : "visible";
+      document.getElementById("btnNext").innerText = stepNum === 5 ? "Volver a empezar ↺" : "Siguiente Paso →";
+    }
+
+    function nextStep() {
+      if (currentStep === 5) goToStep(1);
+      else goToStep(currentStep + 1);
+    }
+
+    function prevStep() {
+      if (currentStep > 1) goToStep(currentStep - 1);
+    }
+
+    // Iniciar en paso 1
+    goToStep(1);
+  </script>
+</body>
+</html>
