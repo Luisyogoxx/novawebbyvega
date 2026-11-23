@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#090B10" />
+  <title>Demo Automatización en Hojas de Cálculo | NovaWeb by Vega</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090B10;
+      --surface: #141824;
+      --surface-alt: #1B2130;
+      --border: #263047;
+      --primary: #0066FF;
+      --accent: #00C2FF;
+      --sheet-green: #10B981;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --text: #FFFFFF;
+      --muted: #94A3B8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: calc(50px + env(safe-area-inset-bottom)); overflow-x: clip; }
+
+    /* Barra superior NovaWeb by Vega */
+    .agency-bar {
+      background: linear-gradient(90deg, #003399, #0066FF);
+      color: #fff;
+      font-size: 12px;
+      padding: 9px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      gap: 8px;
+    }
+    .agency-bar a {
+      background: #090B10;
+      color: #00C2FF;
+      text-decoration: none;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+
+    /* Encabezado */
+    .header-box { text-align: center; padding: 26px 0 18px; }
+    .tag-pill {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.14);
+      color: #34D399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    .header-box h1 { font-size: 26px; font-weight: 800; line-height: 1.2; }
+    .header-box p { color: var(--muted); font-size: 14px; margin-top: 8px; max-width: 660px; margin-inline: auto; }
+
+    /* Métricas Superiores Conectadas */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+      margin: 18px 0 22px;
+    }
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .kpi-label { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; }
+    .kpi-val { font-size: 22px; font-weight: 800; color: #fff; margin-top: 6px; }
+    .kpi-sub { font-size: 11.5px; color: var(--sheet-green); margin-top: 4px; font-weight: 600; }
+
+    /* Layout Principal */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .main-grid > * { min-width: 0; max-width: 100%; }
+    @media (max-width: 860px) {
+      .main-grid { grid-template-columns: 1fr; }
+    }
+
+    .panel-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+    }
+    .panel-title {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Formulario Simulador de Entrada */
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 12px; color: var(--muted); font-weight: 700; margin-bottom: 5px; }
+    .form-control {
+      width: 100%;
+      background: #090B10;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+    }
+    .form-control:focus { border-color: var(--accent); }
+
+    .run-btn {
+      width: 100%;
+      background: linear-gradient(90deg, #10B981, #059669);
+      color: #090B10;
+      border: none;
+      padding: 13px;
+      border-radius: 11px;
+      font-weight: 800;
+      font-size: 13.5px;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: 0.2s;
+    }
+    .run-btn:hover { opacity: 0.92; }
+
+    /* Flujo de Automatizaciones Ejecutadas */
+    .flow-box {
+      margin-top: 16px;
+      background: #090B10;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .flow-header { font-size: 11.5px; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
+    .flow-item {
+      font-size: 12px;
+      color: #CBD5E1;
+      padding: 6px 0;
+      border-bottom: 1px dashed #1E293B;
+      line-height: 1.45;
+    }
+    .flow-item:last-child { border-bottom: none; }
+    .alert-wa {
+      background: rgba(245, 158, 11, 0.14);
+      border-left: 3px solid var(--warning);
+      color: #FDE68A;
+      padding: 8px 10px;
+      border-radius: 6px;
+      margin-top: 8px;
+      font-size: 12px;
+    }
+
+    /* Hoja de Cálculo Estilo Google Sheets / Excel */
+    .sheet-window {
+      background: #0E131D;
+      border: 1px solid var(--sheet-green);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .sheet-toolbar {
+      background: #132A24;
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      border-bottom: 1px solid rgba(16, 185, 129, 0.3);
+      font-size: 12px;
+    }
+    .sheet-toolbar strong { color: #34D399; }
+    .formula-bar {
+      background: #090B10;
+      padding: 7px 14px;
+      font-family: monospace;
+      font-size: 11.5px;
+      color: var(--accent);
+      border-bottom: 1px solid var(--border);
+      overflow-wrap: anywhere;
+    }
+
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    th {
+      background: #171E2E;
+      color: var(--muted);
+      font-weight: 700;
+      text-align: left;
+      padding: 9px 10px;
+      border: 1px solid #222B3F;
+      font-size: 11px;
+    }
+    td {
+      padding: 9px 10px;
+      border: 1px solid #1E2638;
+      color: #E2E8F0;
+    }
+    tr.new-row { animation: flashRow 1.2s ease; }
+    @keyframes flashRow {
+      0% { background-color: rgba(16, 185, 129, 0.35); }
+      100% { background-color: transparent; }
+    }
+
+    .pill-ok {
+      background: rgba(16, 185, 129, 0.16);
+      color: #34D399;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .pill-low {
+      background: rgba(239, 68, 68, 0.2);
+      color: #FCA5A5;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .cta-bottom {
+      margin-top: 22px;
+      background: linear-gradient(135deg, #141C33, #141824);
+      border: 1px solid var(--primary);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .cta-bottom a {
+      background: linear-gradient(90deg, #0066FF, #0099FF);
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra Agencia -->
+  <div class="agency-bar">
+    <span>📊 Demo Hojas de Cálculo Automatizadas • <strong>NovaWeb by Vega</strong></span>
+    <a href="https://wa.me/573000560656?text=Hola%20NovaWeb%20by%20Vega,%20prob%C3%A9%20el%20demo%20de%20Automatizaciones%20en%20Hojas%20de%20C%C3%A1lculo%20y%20quiero%20cotizarlo%20($590.000%20COP)" target="_blank" rel="noopener noreferrer">
+      Automatizar mis Hojas →
+    </a>
+  </div>
+
+  <div class="container">
+    <div class="header-box">
+      <span class="tag-pill">GOOGLE SHEETS • EXCEL • APPS SCRIPT • WHATSAPP</span>
+      <h1>Automatización de Ventas, Inventario y Alertas</h1>
+      <p>Simula registrar una venta nueva. Mira cómo la hoja de cálculo recalcula ganancias, descuenta inventario y dispara alertas automáticas por WhatsApp sin intervención manual.</p>
+    </div>
+
+    <!-- KPIs Conectados -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Ingresos Totales (Auto-Suma)</div>
+        <div class="kpi-val" id="kpiSales">$1.240.000</div>
+        <div class="kpi-sub">● Fórmula en vivo sincronizada</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Utilidad Neta Calculada</div>
+        <div class="kpi-val" id="kpiProfit" style="color:#34D399;">$496.000</div>
+        <div class="kpi-sub">Margen promedio automático: 40%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Pedidos Procesados Hoy</div>
+        <div class="kpi-val" id="kpiOrders">4</div>
+        <div class="kpi-sub">0 errores de digitación</div>
+      </div>
+    </div>
+
+    <div class="main-grid">
+      <!-- Izquierda: Disparador de Venta / Formulario -->
+      <div class="panel-box">
+        <div class="panel-title">
+          <span>⚡ 1. Simular Nueva Venta</span>
+          <span style="font-size:11px; color:var(--accent);">Web / WhatsApp</span>
+        </div>
+
+        <div class="form-group">
+          <label>Cliente</label>
+          <input type="text" id="clientInput" class="form-control" value="Laura Gómez (Bucaramanga)">
+        </div>
+
+        <div class="form-group">
+          <label>Producto</label>
+          <select id="productSelect" class="form-control">
+            <option value="0">Audífonos Pro ANC — $180.000 COP (Stock: 6)</option>
+            <option value="1">Reloj Smart Fit — $240.000 COP (Stock: 4)</option>
+            <option value="2">Teclado Mecánico RGB — $310.000 COP (Stock: 8)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Cantidad vendida</label>
+          <input type="number" id="qtyInput" class="form-control" value="3" min="1" max="10">
+        </div>
+
+        <button class="run-btn" onclick="registerAutomatedSale()">
+          🚀 Registrar Venta y Ejecutar Flujo
+        </button>
+
+        <!-- Registro de Automatizaciones -->
+        <div class="flow-box">
+          <div class="flow-header">🤖 ACCIONES AUTOMÁTICAS EJECUTADAS:</div>
+          <div id="flowLogs">
+            <div class="flow-item">✓ Hoja <strong>Control_Ventas_2026</strong> conectada y lista.</div>
+            <div class="flow-item">✓ Regla activa: Notificar por WhatsApp si el stock baja de <strong>3 unidades</strong>.</div>
+          </div>
+          <div id="waAlertBox"></div>
+        </div>
+      </div>
+
+      <!-- Derecha: Hoja de Cálculo Viva -->
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <!-- Tabla 1: Registro de Ventas -->
+        <div class="sheet-window">
+          <div class="sheet-toolbar">
+            <span>📗 <strong>Control_Ventas_2026.xlsx</strong> • Pestaña: Ventas</span>
+            <span style="color:#94A3B8;">Guardado en la nube</span>
+          </div>
+          <div class="formula-bar" id="formulaDisplay">
+            fx =SUMA(E2:E5) • Última actualización automática hace unos segundos
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Cliente</th>
+                  <th>Producto</th>
+                  <th>Cant.</th>
+                  <th>Total</th>
+                  <th>Comprobante</th>
+                </tr>
+              </thead>
+              <tbody id="salesTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tabla 2: Inventario Conectado -->
+        <div class="sheet-window">
+          <div class="sheet-toolbar">
+            <span>📦 <strong>Inventario_En_Vivo</strong> • Descuento Automático</span>
+            <span style="color:var(--accent);">Alertas Activas</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>SKU</th>
+                  <th>Producto</th>
+                  <th>Stock Actual</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody id="stockTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Final -->
+    <div class="cta-bottom">
+      <div>
+        <strong style="font-size:16px;">¿Llevas tus cuentas, pedidos o inventarios manualmente en Excel?</strong>
+        <p style="font-size:13px; color:var(--muted); margin-top:4px;">
+          Automatizamos tus hojas de cálculo en 2 a 4 días por una inversión única de $590.000 COP.
+        </p>
+      </div>
+      <a href="https://wa.me/573000560656?text=Hola%20NovaWeb%20by%20Vega,%20quiero%20automatizar%20las%20hojas%20de%20c%C3%A1lculo%20de%20mi%20negocio%20($590.000%20COP)" target="_blank" rel="noopener noreferrer">
+        Cotizar Automatización →
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const inventory = [
+      { sku: "PRD-01", name: "Audífonos Pro ANC", price: 180000, stock: 6 },
+      { sku: "PRD-02", name: "Reloj Smart Fit", price: 240000, stock: 4 },
+      { sku: "PRD-03", name: "Teclado Mecánico RGB", price: 310000, stock: 8 }
+    ];
+
+    const sales = [
+      { id: 101, client: "Andrés Ruiz", product: "Teclado Mecánico RGB", qty: 2, total: 620000 },
+      { id: 102, client: "Sofía Castro", product: "Reloj Smart Fit", qty: 1, total: 240000 },
+      { id: 103, client: "Julián Pérez", product: "Audífonos Pro ANC", qty: 1, total: 180000 },
+      { id: 104, client: "Diana Mora", product: "Audífonos Pro ANC", qty: 1, total: 200000 }
+    ];
+
+    function formatCOP(val) {
+      return "$" + Number(val).toLocaleString("es-CO");
+    }
+
+    function renderTables(highlightFirst = false) {
+      const salesBody = document.getElementById("salesTableBody");
+      salesBody.innerHTML = "";
+      let totalRevenue = 0;
+
+      sales.forEach((s, idx) => {
+        totalRevenue += s.total;
+        salesBody.innerHTML += `
+          <tr class="${highlightFirst && idx === 0 ? 'new-row' : ''}">
+            <td>${s.id}</td>
+            <td><strong>${s.client}</strong></td>
+            <td>${s.product}</td>
+            <td>${s.qty}</td>
+            <td style="color:#34D399; font-weight:700;">${formatCOP(s.total)}</td>
+            <td><span class="pill-ok">📄 PDF Enviado</span></td>
+          </tr>
+        `;
+      });
+
+      const stockBody = document.getElementById("stockTableBody");
+      stockBody.innerHTML = "";
+      const select = document.getElementById("productSelect");
+      const prevIdx = select.selectedIndex;
+      select.innerHTML = "";
+
+      inventory.forEach((item, index) => {
+        const isLow = item.stock <= 2;
+        stockBody.innerHTML += `
+          <tr>
+            <td style="color:#94A3B8;">${item.sku}</td>
+            <td><strong>${item.name}</strong></td>
+            <td style="font-weight:800;">${item.stock} unid.</td>
+            <td>${isLow ? '<span class="pill-low">⚠️ Stock Bajo</span>' : '<span class="pill-ok">✓ Óptimo</span>'}</td>
+          </tr>
+        `;
+
+        const opt = document.createElement("option");
+        opt.value = index;
+        opt.text = `${item.name} — ${formatCOP(item.price)} COP (Stock: ${item.stock})`;
+        select.appendChild(opt);
+      });
+      select.selectedIndex = prevIdx >= 0 ? prevIdx : 0;
+
+      // Actualizar KPIs
+      document.getElementById("kpiSales").innerText = formatCOP(totalRevenue);
+      document.getElementById("kpiProfit").innerText = formatCOP(Math.round(totalRevenue * 0.40));
+      document.getElementById("kpiOrders").innerText = sales.length;
+      document.getElementById("formulaDisplay").innerText = `fx =SUMA(E2:E${sales.length + 1}) → ${formatCOP(totalRevenue)} • Sincronizado en vivo`;
+    }
+
+    function registerAutomatedSale() {
+      const client = document.getElementById("clientInput").value.trim() || "Cliente Nuevo";
+      const prodIndex = Number(document.getElementById("productSelect").value);
+      const qty = Number(document.getElementById("qtyInput").value);
+      const prod = inventory[prodIndex];
+
+      if (qty <= 0) return;
+      if (qty > prod.stock) {
+        alert(`Solo quedan ${prod.stock} unidades disponibles de ${prod.name}.`);
+        return;
+      }
+
+      const saleTotal = prod.price * qty;
+      prod.stock -= qty;
+
+      const newId = sales[0].id + 1;
+      sales.unshift({
+        id: newId,
+        client: client,
+        product: prod.name,
+        qty: qty,
+        total: saleTotal
+      });
+
+      renderTables(true);
+
+      const logs = document.getElementById("flowLogs");
+      logs.innerHTML = `
+        <div class="flow-item">✅ <strong>Fila #${newId} agregada:</strong> ${client} (${qty}x ${prod.name} = ${formatCOP(saleTotal)}).</div>
+        <div class="flow-item">📦 <strong>Inventario descontado:</strong> ${prod.name} pasó a <strong>${prod.stock} unidades</strong>.</div>
+        <div class="flow-item">📄 <strong>Recibo PDF generado</strong> y enviado automáticamente al cliente.</div>
+      `;
+
+      const alertBox = document.getElementById("waAlertBox");
+      if (prod.stock <= 2) {
+        alertBox.innerHTML = `
+          <div class="alert-wa">
+            📲 <strong>Alerta WhatsApp disparada al Administrador:</strong> "Atención, el producto <em>${prod.name}</em> bajó a ${prod.stock} unidades. Reponer inventario."
+          </div>`;
+      } else {
+        alertBox.innerHTML = "";
+      }
+    }
+
+    renderTables();
+  </script>
+</body>
+</html>
