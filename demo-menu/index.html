@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#090B10" />
+  <title>Demo Menú Digital QR | NovaWeb by Vega</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090B10;
+      --card: #141824;
+      --card-border: #1E293B;
+      --primary: #0066FF;
+      --accent: #00C2FF;
+      --whatsapp: #25D366;
+      --text: #FFFFFF;
+      --muted: #94A3B8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
+
+    /* Barra superior de agencia */
+    .agency-bar {
+      background: linear-gradient(90deg, #003399, #0066FF);
+      color: #fff;
+      font-size: 12px;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .agency-bar a {
+      background: #090B10;
+      color: #00C2FF;
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 11px;
+    }
+
+    .container { max-width: 540px; margin: 0 auto; padding: 0 16px; }
+
+    /* Cabecera del Restaurante Demo */
+    .header {
+      padding: 20px 0 16px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand h1 { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+    .brand p { font-size: 12px; color: var(--accent); margin-top: 2px; }
+    .table-select {
+      background: var(--card);
+      color: #fff;
+      border: 1px solid var(--primary);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      outline: none;
+    }
+
+    /* Buscador y Categorías */
+    .search-box { margin: 16px 0 12px; }
+    .search-box input {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 16px;
+      outline: none;
+    }
+    .search-box input:focus { border-color: var(--primary); }
+
+    .categories {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      scrollbar-width: none;
+    }
+    .categories::-webkit-scrollbar { display: none; }
+    .cat-btn {
+      background: var(--card);
+      color: var(--muted);
+      border: 1px solid var(--card-border);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .cat-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* Tarjetas de Productos */
+    .menu-list { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
+    .item-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .item-emoji {
+      width: 68px;
+      height: 68px;
+      background: #1C2233;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 34px;
+      flex-shrink: 0;
+    }
+    .item-info { flex: 1; min-width: 0; }
+    .item-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(0, 194, 255, 0.12);
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-bottom: 4px;
+    }
+    .item-info h3 { font-size: 15px; font-weight: 700; }
+    .item-info p { font-size: 12px; color: var(--muted); margin: 4px 0 8px; line-height: 1.4; }
+    .item-bottom { display: flex; justify-content: space-between; align-items: center; }
+    .price { font-size: 15px; font-weight: 800; color: #fff; }
+
+    .add-btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #090B10;
+      border: 1px solid var(--primary);
+      padding: 4px 10px;
+      border-radius: 8px;
+    }
+    .qty-btn {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* Barra flotante inferior */
+    .cart-bar {
+      position: fixed;
+      bottom: calc(16px + env(safe-area-inset-bottom));
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 508px;
+      background: linear-gradient(90deg, #0066FF, #0099FF);
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 10px 25px rgba(0, 102, 255, 0.4);
+      cursor: pointer;
+      z-index: 40;
+    }
+    .cart-bar.hidden { display: none; }
+
+    /* Modal del Carrito */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.78);
+      display: none;
+      justify-content: center;
+      align-items: flex-end;
+      z-index: 60;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-sheet {
+      background: #141824;
+      width: 100%;
+      max-width: 540px;
+      border-radius: 20px 20px 0 0;
+      padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
+      border-top: 1px solid var(--primary);
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .close-btn { background: none; border: none; color: var(--muted); font-size: 22px; cursor: pointer; }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--card-border);
+      font-size: 14px;
+    }
+    .notes-input {
+      width: 100%;
+      background: #090B10;
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 10px;
+      margin: 14px 0;
+      font-size: 16px;
+    }
+    .wa-order-btn {
+      width: 100%;
+      background: var(--whatsapp);
+      color: #090B10;
+      border: none;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Banner comercial de tu agencia -->
+  <div class="agency-bar">
+    <span>⚡ Demo en vivo • <strong>NovaWeb by Vega</strong></span>
+    <a href="https://wa.me/573000560656?text=Hola%20NovaWeb%20by%20Vega,%20vi%20el%20demo%20del%20Men%C3%BA%20Digital%20QR%20y%20quiero%20cotizar%20uno%20para%20mi%20negocio" target="_blank" rel="noopener noreferrer">
+      Quiero este Menú →
+    </a>
+  </div>
+
+  <div class="container">
+    <!-- Header Restaurante -->
+    <div class="header">
+      <div class="brand">
+        <h1>🍔 BISTRO NOVA</h1>
+        <p>● Abierto • Pedido directo sin comisiones</p>
+      </div>
+      <select id="tableSelect" class="table-select">
+        <option value="Mesa #04">📍 Mesa #04</option>
+        <option value="Mesa #08">📍 Mesa #08</option>
+        <option value="Para Llevar">🛍️ Para Llevar</option>
+        <option value="Domicilio">🛵 Domicilio</option>
+      </select>
+    </div>
+
+    <!-- Buscador -->
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Buscar hamburguesas, bebidas, postres..." oninput="renderMenu()">
+    </div>
+
+    <!-- Categorías -->
+    <div class="categories">
+      <button class="cat-btn active" onclick="filterCategory('Todos', this)">Todos</button>
+      <button class="cat-btn" onclick="filterCategory('Burgers', this)">🍔 Burgers</button>
+      <button class="cat-btn" onclick="filterCategory('Combos', this)">🍟 Combos</button>
+      <button class="cat-btn" onclick="filterCategory('Bebidas', this)">🥤 Bebidas</button>
+      <button class="cat-btn" onclick="filterCategory('Postres', this)">🍰 Postres</button>
+    </div>
+
+    <!-- Lista de Platos -->
+    <div id="menuList" class="menu-list"></div>
+  </div>
+
+  <!-- Barra Flotante del Pedido -->
+  <div id="cartBar" class="cart-bar hidden" onclick="openCart()">
+    <div>
+      <span id="cartCount" style="font-weight: 800;">0 ítems</span> • <span style="font-size: 13px;">Ver pedido</span>
+    </div>
+    <div id="cartTotalBar" style="font-weight: 800; font-size: 16px;">$0</div>
+  </div>
+
+  <!-- Modal Carrito / Checkout WhatsApp -->
+  <div id="cartModal" class="modal-overlay">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h3>Tu Pedido (<span id="modalTable">Mesa #04</span>)</h3>
+        <button class="close-btn" onclick="closeCart()">✕</button>
+      </div>
+      <div id="cartItemsContainer"></div>
+      <input type="text" id="orderNotes" class="notes-input" placeholder="Notas para cocina (ej. sin cebolla, salsas aparte)...">
+      <div style="display:flex; justify-content:space-between; font-size:17px; font-weight:800; margin-bottom:16px;">
+        <span>Total a pagar:</span>
+        <span id="modalTotal" style="color:#00C2FF;">$0</span>
+      </div>
+      <button class="wa-order-btn" onclick="sendWhatsAppOrder()">
+        📲 Enviar Pedido por WhatsApp
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const products = [
+      { id: 1, name: "Nova Smash Doble", category: "Burgers", price: 24000, emoji: "🍔", badge: "MÁS PEDIDA", desc: "Doble carne angus 150g, queso cheddar fundido, tocineta crocante y salsa de la casa." },
+      { id: 2, name: "Cyber Trufa Burger", category: "Burgers", price: 28000, emoji: "🥩", badge: "CHEF", desc: "Carne artesanal, mayo de trufa negra, cebolla caramelizada y pan brioche sellado." },
+      { id: 3, name: "Combo Pareja Nova", category: "Combos", price: 52000, emoji: "🍟", badge: "AHORRO", desc: "2 Nova Smash Doble + 2 papas rústicas en cascos + 2 limonadas de coco." },
+      { id: 4, name: "Papas Supremas Bacon", category: "Combos", price: 16000, emoji: "🧀", badge: "", desc: "Papas crocantes bañadas en queso cheddar, trozos de tocineta y cebollín." },
+      { id: 5, name: "Limonada de Coco", category: "Bebidas", price: 9500, emoji: "🥥", badge: "FRESCA", desc: "Cremosa y natural, preparada al momento." },
+      { id: 6, name: "Soda Frutos Rojos", category: "Bebidas", price: 8500, emoji: "🥤", badge: "", desc: "Soda italiana refrescante con macerado artesanal de fresas y mora." },
+      { id: 7, name: "Volcán de Chocolate", category: "Postres", price: 13000, emoji: "🍫", badge: "", desc: "Bizcocho tibio relleno de chocolate fundido acompañado de helado de vainilla." }
+    ];
+
+    let cart = {};
+    let currentCategory = "Todos";
+
+    function formatCOP(num) {
+      return "$" + num.toLocaleString("es-CO");
+    }
+
+    function filterCategory(cat, btn) {
+      currentCategory = cat;
+      document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderMenu();
+    }
+
+    function updateQty(id, delta) {
+      cart[id] = (cart[id] || 0) + delta;
+      if (cart[id] <= 0) delete cart[id];
+      renderMenu();
+      updateCartBar();
+    }
+
+    function renderMenu() {
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      const list = document.getElementById("menuList");
+      list.innerHTML = "";
+
+      const filtered = products.filter(p => {
+        const matchCat = currentCategory === "Todos" || p.category === currentCategory;
+        const matchText = p.name.toLowerCase().includes(search) || p.desc.toLowerCase().includes(search);
+        return matchCat && matchText;
+      });
+
+      filtered.forEach(p => {
+        const qty = cart[p.id] || 0;
+        const actionHTML = qty === 0
+          ? `<button class="add-btn" onclick="updateQty(${p.id}, 1)">+ Agregar</button>`
+          : `<div class="qty-controls">
+               <button class="qty-btn" onclick="updateQty(${p.id}, -1)">−</button>
+               <span style="font-weight:700; font-size:13px;">${qty}</span>
+               <button class="qty-btn" onclick="updateQty(${p.id}, 1)">+</button>
+             </div>`;
+
+        list.innerHTML += `
+          <div class="item-card">
+            <div class="item-emoji">${p.emoji}</div>
+            <div class="item-info">
+              ${p.badge ? `<span class="item-badge">${p.badge}</span>` : ""}
+              <h3>${p.name}</h3>
+              <p>${p.desc}</p>
+              <div class="item-bottom">
+                <span class="price">${formatCOP(p.price)}</span>
+                ${actionHTML}
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function updateCartBar() {
+      const bar = document.getElementById("cartBar");
+      let totalItems = 0;
+      let totalPrice = 0;
+
+      for (const [id, qty] of Object.entries(cart)) {
+        const prod = products.find(p => p.id == id);
+        totalItems += qty;
+        totalPrice += prod.price * qty;
+      }
+
+      if (totalItems === 0) {
+        bar.classList.add("hidden");
+        closeCart();
+      } else {
+        bar.classList.remove("hidden");
+        document.getElementById("cartCount").innerText = `${totalItems} ${totalItems === 1 ? 'ítem' : 'ítems'}`;
+        document.getElementById("cartTotalBar").innerText = formatCOP(totalPrice);
+      }
+    }
+
+    function openCart() {
+      const table = document.getElementById("tableSelect").value;
+      document.getElementById("modalTable").innerText = table;
+      const container = document.getElementById("cartItemsContainer");
+      container.innerHTML = "";
+      let total = 0;
+
+      for (const [id, qty] of Object.entries(cart)) {
+        const prod = products.find(p => p.id == id);
+        const subtotal = prod.price * qty;
+        total += subtotal;
+        container.innerHTML += `
+          <div class="cart-item">
+            <div>
+              <strong>${qty}x ${prod.name}</strong>
+              <div style="font-size:12px; color:#94A3B8;">${formatCOP(prod.price)} c/u</div>
+            </div>
+            <div style="font-weight:700;">${formatCOP(subtotal)}</div>
+          </div>
+        `;
+      }
+
+      document.getElementById("modalTotal").innerText = formatCOP(total);
+      document.getElementById("cartModal").classList.add("open");
+    }
+
+    function closeCart() {
+      document.getElementById("cartModal").classList.remove("open");
+    }
+
+    function sendWhatsAppOrder() {
+      const table = document.getElementById("tableSelect").value;
+      const notes = document.getElementById("orderNotes").value.trim();
+      let total = 0;
+      let lines = [`*NUEVO PEDIDO - BISTRO NOVA* 🍔`, `📍 *Ubicación:* ${table}`, ``, `*Detalle del pedido:*`];
+
+      for (const [id, qty] of Object.entries(cart)) {
+        const prod = products.find(p => p.id == id);
+        const subtotal = prod.price * qty;
+        total += subtotal;
+        lines.push(`• ${qty}x ${prod.name} (${formatCOP(subtotal)})`);
+      }
+
+      lines.push(``);
+      lines.push(`💰 *TOTAL: ${formatCOP(total)}*`);
+      if (notes) lines.push(`📝 *Notas:* ${notes}`);
+      lines.push(``);
+      lines.push(`_(Pedido de prueba enviado desde el Demo de Menú QR de NovaWeb by Vega)_`);
+
+      const text = encodeURIComponent(lines.join("\n"));
+      window.open(`https://wa.me/573000560656?text=${text}`, "_blank", "noopener,noreferrer");
+    }
+
+    renderMenu();
+  </script>
+</body>
+</html>
