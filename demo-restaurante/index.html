@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#090B10" />
+  <title>Demo Sistema de Restaurante | NovaWeb by Vega</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090B10;
+      --surface: #141824;
+      --surface-card: #1B2130;
+      --border: #262F44;
+      --primary: #0066FF;
+      --accent: #00C2FF;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --text: #FFFFFF;
+      --muted: #94A3B8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: calc(40px + env(safe-area-inset-bottom)); overflow-x: clip; }
+
+    /* Barra superior NovaWeb by Vega */
+    .agency-bar {
+      background: linear-gradient(90deg, #003399, #0066FF);
+      color: #fff;
+      font-size: 12px;
+      padding: 9px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      gap: 8px;
+    }
+    .agency-bar a {
+      background: #090B10;
+      color: #00C2FF;
+      text-decoration: none;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+
+    /* Encabezado */
+    .header-box { text-align: center; padding: 24px 0 16px; }
+    .tag-pill {
+      display: inline-block;
+      background: rgba(0, 194, 255, 0.12);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .header-box h1 { font-size: 24px; font-weight: 800; }
+    .header-box p { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    /* Pestañas de Vista (Mesero, Cocina, Caja) */
+    .view-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      background: var(--surface);
+      padding: 6px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      flex: 1;
+      min-width: 140px;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: 0.2s;
+    }
+    .tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+    }
+    .badge-count {
+      background: var(--danger);
+      color: #fff;
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-weight: 800;
+    }
+
+    /* Paneles de Vista */
+    .view-panel { display: none; }
+    .view-panel.active { display: block; }
+
+    /* VISTA 1: MESERO (Comandas) */
+    .waiter-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+    }
+    .waiter-grid > * { min-width: 0; max-width: 100%; }
+    @media (max-width: 820px) {
+      .waiter-grid { grid-template-columns: 1fr; }
+    }
+
+    .card-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+
+    /* Selector de Mesa */
+    .table-picker {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .table-node {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 6px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .table-node.selected {
+      border-color: var(--accent);
+      background: rgba(0, 194, 255, 0.12);
+      color: var(--accent);
+    }
+    .table-node.occupied {
+      border-color: var(--warning);
+      color: var(--warning);
+    }
+
+    /* Ítems del Menú */
+    .menu-items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+    .menu-item-btn {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      text-align: left;
+      cursor: pointer;
+      color: #fff;
+      transition: 0.2s;
+    }
+    .menu-item-btn:hover { border-color: var(--primary); }
+    .item-icon { font-size: 24px; }
+    .item-details h4 { font-size: 13px; font-weight: 700; }
+    .item-details span { font-size: 12px; color: var(--accent); font-weight: 800; }
+
+    /* Lista Comanda Actual */
+    .comanda-list {
+      min-height: 120px;
+      max-height: 220px;
+      overflow-y: auto;
+      margin-bottom: 12px;
+    }
+    .comanda-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .comanda-qty-btn {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      color: #fff;
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .notes-input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+
+    .send-kitchen-btn {
+      width: 100%;
+      background: var(--success);
+      color: #090B10;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* VISTA 2: COCINA (KDS) */
+    .kitchen-board {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .ticket {
+      background: #181D2A;
+      border-top: 4px solid var(--warning);
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .ticket.ready { border-top-color: var(--success); }
+    .ticket-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      border-bottom: 1px dashed var(--border);
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+    .ticket-time { font-size: 11px; color: var(--muted); }
+    .ticket-items {
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+      flex: 1;
+    }
+    .ticket-notes {
+      font-size: 11px;
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+      padding: 6px;
+      border-radius: 6px;
+      margin-top: 6px;
+    }
+    .ticket-btn {
+      width: 100%;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 8px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .ticket-btn.done {
+      background: var(--success);
+    }
+
+    /* VISTA 3: CAJA / ADMIN */
+    .cashier-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+    }
+    .stat-val { font-size: 20px; font-weight: 800; color: var(--accent); margin-top: 4px; }
+
+    .cashier-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+    .cashier-table th, .cashier-table td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .cashier-table th { background: var(--surface-card); color: var(--muted); }
+    .pay-btn {
+      background: var(--success);
+      color: #090B10;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-weight: 700;
+      font-size: 11px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra Agencia -->
+  <div class="agency-bar">
+    <span>🍽️ Demo Sistema de Restaurante • <strong>NovaWeb by Vega</strong></span>
+    <a href="https://wa.me/573000560656?text=Hola%20NovaWeb%20by%20Vega,%20prob%C3%A9%20el%20demo%20del%20Sistema%20de%20Restaurante%20y%20quiero%20cotizarlo%20($1.690.000%20COP)" target="_blank" rel="noopener noreferrer">
+      Cotizar Sistema →
+    </a>
+  </div>
+
+  <div class="container">
+    <div class="header-box">
+      <span class="tag-pill">SISTEMA INTEGRADO // MESAS • COCINA • CAJA</span>
+      <h1>Buena Burger | Sistema de Comandas & Restaurante</h1>
+      <p>Simula un pedido como mesero, mira cómo entra en cocina y cómo se factura en caja en tiempo real.</p>
+    </div>
+
+    <!-- Pestañas -->
+    <div class="view-tabs">
+      <button id="tabWaiter" class="tab-btn active" onclick="switchView('waiter')">
+        🏃♂️ 1. Mesero (Comandas)
+      </button>
+      <button id="tabKitchen" class="tab-btn" onclick="switchView('kitchen')">
+        🍳 2. Cocina (KDS) <span class="badge-count" id="kitchenBadge">0</span>
+      </button>
+      <button id="tabCashier" class="tab-btn" onclick="switchView('cashier')">
+        💵 3. Caja & Ventas
+      </button>
+    </div>
+
+    <!-- VISTA 1: MESERO -->
+    <div id="panelWaiter" class="view-panel active">
+      <div class="waiter-grid">
+        <!-- Izquierda: Selección de Mesa y Menú -->
+        <div class="card-box">
+          <div class="card-title">
+            <span>📍 Seleccionar Mesa</span>
+            <span style="color:var(--accent); font-size:12px;" id="currentSelectedMesaLabel">Mesa #01</span>
+          </div>
+
+          <div class="table-picker">
+            <div class="table-node selected" id="tableNode-Mesa 1" onclick="selectMesa('Mesa 1')">Mesa 1</div>
+            <div class="table-node" id="tableNode-Mesa 2" onclick="selectMesa('Mesa 2')">Mesa 2</div>
+            <div class="table-node occupied" id="tableNode-Mesa 3" onclick="selectMesa('Mesa 3')">Mesa 3</div>
+            <div class="table-node" id="tableNode-Mesa 4" onclick="selectMesa('Mesa 4')">Mesa 4</div>
+            <div class="table-node" id="tableNode-Mesa 5" onclick="selectMesa('Mesa 5')">Mesa 5</div>
+            <div class="table-node" id="tableNode-Mesa 6" onclick="selectMesa('Mesa 6')">Mesa 6</div>
+          </div>
+
+          <div class="card-title">🍔 Añadir Platos a la Comanda</div>
+          <div class="menu-items-grid" id="menuItemsContainer"></div>
+        </div>
+
+        <!-- Derecha: Comanda Actual -->
+        <div class="card-box" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div class="card-title">
+              <span>📝 Comanda - <strong id="comandaMesaTitle">Mesa 1</strong></span>
+              <span style="color:var(--muted); font-size:12px;">Nuevo Pedido</span>
+            </div>
+            <div class="comanda-list" id="comandaList">
+              <div style="color:var(--muted); text-align:center; padding:30px 0; font-size:12px;">
+                Toca platos para iniciar comanda
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <input type="text" id="comandaNotes" class="notes-input" placeholder="Notas especiales (ej. sin cebolla, término 3/4)...">
+            <div style="display:flex; justify-content:space-between; font-weight:800; font-size:15px; margin-bottom:12px;">
+              <span>Total:</span>
+              <span id="comandaTotal" style="color:var(--accent);">$0</span>
+            </div>
+            <button class="send-kitchen-btn" onclick="sendToKitchen()">
+              🔥 Enviar Comanda a Cocina
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VISTA 2: COCINA -->
+    <div id="panelKitchen" class="view-panel">
+      <div class="card-box">
+        <div class="card-title">
+          <span>🍳 Monitor de Cocina (KDS)</span>
+          <span style="color:var(--warning); font-size:12px;">Pedidos en Preparación</span>
+        </div>
+        <div class="kitchen-board" id="kitchenBoard">
+          <div style="color:var(--muted); text-align:center; width:100%; padding:40px 0; font-size:13px;">
+            No hay comandas en preparación. Envía una desde la pestaña de Mesero.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VISTA 3: CAJA -->
+    <div id="panelCashier" class="view-panel">
+      <div class="cashier-stats">
+        <div class="stat-card">
+          <div style="font-size:11px; color:var(--muted);">VENTAS DEL DÍA</div>
+          <div class="stat-val" id="totalVentasDia">$0</div>
+        </div>
+        <div class="stat-card">
+          <div style="font-size:11px; color:var(--muted);">MESAS ACTIVAS</div>
+          <div class="stat-val" id="activeTablesCount">0</div>
+        </div>
+        <div class="stat-card">
+          <div style="font-size:11px; color:var(--muted);">COMANDAS COMPLETADAS</div>
+          <div class="stat-val" id="completedOrdersCount">0</div>
+        </div>
+      </div>
+
+      <div class="card-box">
+        <div class="card-title">💵 Cuentas Activas & Facturación</div>
+        <div style="overflow-x:auto;">
+          <table class="cashier-table">
+            <thead>
+              <tr>
+                <th>Mesa</th>
+                <th>Detalle</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody id="cashierTableBody">
+              <tr>
+                <td colspan="5" style="text-align:center; color:var(--muted); padding:20px;">
+                  No hay cuentas pendientes por cobrar.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const menu = [
+      { id: 1, name: "Buena Smash Clásica", price: 19000, icon: "🍔" },
+      { id: 2, name: "Triple Smash Bacon", price: 25000, icon: "🥓" },
+      { id: 3, name: "La Trufada Gourmet", price: 28000, icon: "👑" },
+      { id: 4, name: "Papas Locas Cheddar", price: 15000, icon: "🍟" },
+      { id: 5, name: "Malteada Oreo", price: 12000, icon: "🥤" },
+      { id: 6, name: "Gaseosa 350ml", price: 4500, icon: "🥤" }
+    ];
+
+    let currentMesa = "Mesa 1";
+    let currentComanda = {};
+    let activeTickets = [
+      {
+        id: 101,
+        mesa: "Mesa 3",
+        time: "Hace 6 min",
+        items: [{ name: "Buena Smash Clásica", qty: 2 }, { name: "Papas Locas Cheddar", qty: 1 }],
+        notes: "Sin cebolla en una de las burgers",
+        status: "preparing",
+        total: 53000
+      }
+    ];
+    let closedOrdersTotal = 78000;
+    let completedCount = 3;
+
+    function formatCOP(num) {
+      return "$" + num.toLocaleString("es-CO");
+    }
+
+    function switchView(view) {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
+
+      if (view === 'waiter') {
+        document.getElementById("tabWaiter").classList.add("active");
+        document.getElementById("panelWaiter").classList.add("active");
+      } else if (view === 'kitchen') {
+        document.getElementById("tabKitchen").classList.add("active");
+        document.getElementById("panelKitchen").classList.add("active");
+        renderKitchen();
+      } else if (view === 'cashier') {
+        document.getElementById("tabCashier").classList.add("active");
+        document.getElementById("panelCashier").classList.add("active");
+        renderCashier();
+      }
+    }
+
+    function selectMesa(mesa) {
+      currentMesa = mesa;
+      document.querySelectorAll(".table-node").forEach(n => n.classList.remove("selected"));
+      document.getElementById(`tableNode-${mesa}`).classList.add("selected");
+      document.getElementById("currentSelectedMesaLabel").innerText = mesa;
+      document.getElementById("comandaMesaTitle").innerText = mesa;
+      currentComanda = {};
+      renderComanda();
+    }
+
+    function renderMenu() {
+      const container = document.getElementById("menuItemsContainer");
+      container.innerHTML = "";
+      menu.forEach(item => {
+        container.innerHTML += `
+          <button class="menu-item-btn" onclick="addToComanda(${item.id})">
+            <span class="item-icon">${item.icon}</span>
+            <div class="item-details">
+              <h4>${item.name}</h4>
+              <span>${formatCOP(item.price)}</span>
+            </div>
+          </button>
+        `;
+      });
+    }
+
+    function addToComanda(id) {
+      currentComanda[id] = (currentComanda[id] || 0) + 1;
+      renderComanda();
+    }
+
+    function changeQty(id, delta) {
+      currentComanda[id] = (currentComanda[id] || 0) + delta;
+      if (currentComanda[id] <= 0) delete currentComanda[id];
+      renderComanda();
+    }
+
+    function renderComanda() {
+      const list = document.getElementById("comandaList");
+      list.innerHTML = "";
+      let total = 0;
+
+      const keys = Object.keys(currentComanda);
+      if (keys.length === 0) {
+        list.innerHTML = `<div style="color:var(--muted); text-align:center; padding:30px 0; font-size:12px;">Toca platos para iniciar comanda</div>`;
+        document.getElementById("comandaTotal").innerText = "$0";
+        return;
+      }
+
+      keys.forEach(id => {
+        const item = menu.find(m => m.id == id);
+        const qty = currentComanda[id];
+        const sub = item.price * qty;
+        total += sub;
+
+        list.innerHTML += `
+          <div class="comanda-row">
+            <div>
+              <strong>${item.icon} ${item.name}</strong>
+              <div style="font-size:11px; color:var(--muted);">${formatCOP(item.price)}</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button class="comanda-qty-btn" onclick="changeQty(${id}, -1)">-</button>
+              <span style="font-weight:700;">${qty}</span>
+              <button class="comanda-qty-btn" onclick="changeQty(${id}, 1)">+</button>
+              <span style="font-weight:700; width:65px; text-align:right;">${formatCOP(sub)}</span>
+            </div>
+          </div>
+        `;
+      });
+
+      document.getElementById("comandaTotal").innerText = formatCOP(total);
+    }
+
+    function sendToKitchen() {
+      const keys = Object.keys(currentComanda);
+      if (keys.length === 0) {
+        alert("Agrega platos a la comanda antes de enviarla.");
+        return;
+      }
+
+      const items = keys.map(id => {
+        const m = menu.find(i => i.id == id);
+        return { name: m.name, qty: currentComanda[id] };
+      });
+
+      let total = 0;
+      keys.forEach(id => { total += menu.find(m => m.id == id).price * currentComanda[id]; });
+
+      const notes = document.getElementById("comandaNotes").value.trim();
+      const ticketId = Math.floor(100 + Math.random() * 900);
+
+      activeTickets.push({
+        id: ticketId,
+        mesa: currentMesa,
+        time: "Hace 1 min",
+        items: items,
+        notes: notes,
+        status: "preparing",
+        total: total
+      });
+
+      document.getElementById(`tableNode-${currentMesa}`).classList.add("occupied");
+      document.getElementById("comandaNotes").value = "";
+      currentComanda = {};
+      renderComanda();
+      updateBadges();
+
+      alert(`¡Comanda enviada con éxito a Cocina para la ${currentMesa}!`);
+      switchView('kitchen');
+    }
+
+    function renderKitchen() {
+      const board = document.getElementById("kitchenBoard");
+      board.innerHTML = "";
+
+      const prepTickets = activeTickets.filter(t => t.status === "preparing");
+      if (prepTickets.length === 0) {
+        board.innerHTML = `<div style="color:var(--muted); text-align:center; width:100%; padding:40px 0; font-size:13px;">No hay comandas pendientes. Envía una desde la pestaña de Mesero.</div>`;
+        return;
+      }
+
+      prepTickets.forEach(t => {
+        let itemsHTML = t.items.map(i => `<div>• <strong>${i.qty}x</strong> ${i.name}</div>`).join("");
+        board.innerHTML += `
+          <div class="ticket">
+            <div>
+              <div class="ticket-head">
+                <strong>📍 ${t.mesa}</strong>
+                <span class="ticket-time">⏱️ ${t.time}</span>
+              </div>
+              <div class="ticket-items">
+                ${itemsHTML}
+                ${t.notes ? `<div class="ticket-notes">📝 ${t.notes}</div>` : ""}
+              </div>
+            </div>
+            <button class="ticket-btn" onclick="markTicketReady(${t.id})">
+              🔔 Marcar como LISTO
+            </button>
+          </div>
+        `;
+      });
+    }
+
+    function markTicketReady(id) {
+      const ticket = activeTickets.find(t => t.id === id);
+      if (ticket) {
+        ticket.status = "ready";
+        completedCount++;
+        renderKitchen();
+        updateBadges();
+        alert(`Pedido de la ${ticket.mesa} marcado como listo para servir.`);
+      }
+    }
+
+    function renderCashier() {
+      const body = document.getElementById("cashierTableBody");
+      body.innerHTML = "";
+
+      const pending = activeTickets.filter(t => t.status !== "paid");
+      let activeCount = pending.length;
+
+      document.getElementById("activeTablesCount").innerText = activeCount;
+      document.getElementById("completedOrdersCount").innerText = completedCount;
+
+      let currentTotal = closedOrdersTotal + pending.reduce((sum, t) => sum + t.total, 0);
+      document.getElementById("totalVentasDia").innerText = formatCOP(currentTotal);
+
+      if (pending.length === 0) {
+        body.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--muted); padding:20px;">No hay cuentas pendientes por cobrar.</td></tr>`;
+        return;
+      }
+
+      pending.forEach(t => {
+        const itemsSummary = t.items.map(i => `${i.qty}x ${i.name.split(' ')[0]}`).join(", ");
+        const statusBadge = t.status === "ready"
+          ? `<span style="color:var(--success); font-weight:700;">🛎️ Listo para cobrar</span>`
+          : `<span style="color:var(--warning); font-weight:700;">⏳ Preparando</span>`;
+
+        body.innerHTML += `
+          <tr>
+            <td><strong>${t.mesa}</strong></td>
+            <td style="color:var(--muted); font-size:12px;">${itemsSummary}</td>
+            <td><strong>${formatCOP(t.total)}</strong></td>
+            <td>${statusBadge}</td>
+            <td>
+              <button class="pay-btn" onclick="payTable(${t.id})">💵 Cobrar</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function payTable(id) {
+      const ticket = activeTickets.find(t => t.id === id);
+      if (ticket) {
+        ticket.status = "paid";
+        closedOrdersTotal += ticket.total;
+        const node = document.getElementById(`tableNode-${ticket.mesa}`);
+        if (node) node.classList.remove("occupied");
+        activeTickets = activeTickets.filter(t => t.id !== id);
+        renderCashier();
+        updateBadges();
+        alert(`Cuenta de la ${ticket.mesa} cobrada y registrada en caja.`);
+      }
+    }
+
+    function updateBadges() {
+      const count = activeTickets.filter(t => t.status === "preparing").length;
+      document.getElementById("kitchenBadge").innerText = count;
+    }
+
+    renderMenu();
+    updateBadges();
+  </script>
+</body>
+</html>
